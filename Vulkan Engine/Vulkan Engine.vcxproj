@@ -13,10 +13,12 @@
   <ItemGroup>
     <ClCompile Include="application.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="vk_pipeline.cpp" />
     <ClCompile Include="vk_window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.hpp" />
+    <ClInclude Include="vk_pipeline.hpp" />
     <ClInclude Include="vk_window.hpp" />
   </ItemGroup>
   <ItemGroup>
