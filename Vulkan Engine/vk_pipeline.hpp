@@ -10,7 +10,6 @@ namespace vk_engine
     {
         VkViewport viewport{};
         VkRect2D scissor{};
-        VkPipelineViewportStateCreateInfo viewport_info{};
         VkPipelineInputAssemblyStateCreateInfo input_assembly_info{};
         VkPipelineRasterizationStateCreateInfo rasterization_info{};
         VkPipelineMultisampleStateCreateInfo multisample_info{};
@@ -48,11 +47,11 @@ namespace vk_engine
 
         void create_shader_module(const std::vector<char>& code, VkShaderModule* shader_module) const;
 
-        vk_device& vk_device_;
+        vk_device& device;
         
-        VkPipeline graphics_pipeline_;
+        VkPipeline graphics_pipeline{};
         
-        VkShaderModule vert_shader_module_;
-        VkShaderModule frag_shader_module_;
+        VkShaderModule vert_shader_module{};
+        VkShaderModule frag_shader_module{};
     };
 }

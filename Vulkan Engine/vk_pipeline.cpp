@@ -1,27 +1,28 @@
 #include "vk_pipeline.hpp"
 
-#include <assert.h>
+#include <cassert>
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
 
 namespace vk_engine
 {
-    vk_pipeline::vk_pipeline(vk_device& device, const std::string& vert_shader_path,
+    vk_pipeline::vk_pipeline(vk_device& device,
+                             const std::string& vert_shader_path,
                              const std::string& frag_shader_path,
-                             const pipeline_config_info& config_info) : vk_device_(device)
+                             const pipeline_config_info& config_info) : device(device)
     {
         create_graphics_pipeline(vert_shader_path, frag_shader_path, config_info);
     }
 
     vk_pipeline::~vk_pipeline()
     {
-        vkDestroyShaderModule(vk_device_.device(), vert_shader_module_, nullptr);
-        vkDestroyShaderModule(vk_device_.device(), frag_shader_module_, nullptr);
-        vkDestroyPipeline(vk_device_.device(), graphics_pipeline_, nullptr);
+        vkDestroyShaderModule(device.device(), vert_shader_module, nullptr);
+        vkDestroyShaderModule(device.device(), frag_shader_module, nullptr);
+        vkDestroyPipeline(device.device(), graphics_pipeline, nullptr);
     }
 
-    pipeline_config_info vk_pipeline::default_pipeline_config_info(uint32_t width, uint32_t height)
+    pipeline_config_info vk_pipeline::default_pipeline_config_info(const uint32_t width, const uint32_t height)
     {
         pipeline_config_info config_info{};
 
@@ -38,12 +39,6 @@ namespace vk_engine
 
         config_info.scissor.offset = {0, 0};
         config_info.scissor.extent = {width, height};
-
-        config_info.viewport_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-        config_info.viewport_info.viewportCount = 1;
-        config_info.viewport_info.pViewports = &config_info.viewport;
-        config_info.viewport_info.scissorCount = 1;
-        config_info.viewport_info.pScissors = &config_info.scissor;
 
         config_info.rasterization_info.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
         config_info.rasterization_info.depthClampEnable = VK_FALSE;
@@ -134,13 +129,13 @@ namespace vk_engine
         std::cout << "Vertex shader code size: " << vert_code.size() << std::endl;
         std::cout << "Fragment shader code size: " << frag_code.size() << std::endl;
 
-        create_shader_module(vert_code, &vert_shader_module_);
-        create_shader_module(frag_code, &frag_shader_module_);
+        create_shader_module(vert_code, &vert_shader_module);
+        create_shader_module(frag_code, &frag_shader_module);
 
         VkPipelineShaderStageCreateInfo shader_stages[2];
         shader_stages[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
         shader_stages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
-        shader_stages[0].module = vert_shader_module_;
+        shader_stages[0].module = vert_shader_module;
         shader_stages[0].pName = "main";
         shader_stages[0].flags = 0;
         shader_stages[0].pNext = nullptr;
@@ -148,7 +143,7 @@ namespace vk_engine
         
         shader_stages[1].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
         shader_stages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-        shader_stages[1].module = frag_shader_module_;
+        shader_stages[1].module = frag_shader_module;
         shader_stages[1].pName = "main";
         shader_stages[1].flags = 0;
         shader_stages[1].pNext = nullptr;
@@ -159,7 +154,14 @@ namespace vk_engine
         vertex_input_info.vertexAttributeDescriptionCount = 0;
         vertex_input_info.vertexBindingDescriptionCount = 0;
         vertex_input_info.pVertexAttributeDescriptions = nullptr; 
-        vertex_input_info.pVertexBindingDescriptions = nullptr; 
+        vertex_input_info.pVertexBindingDescriptions = nullptr;
+
+        VkPipelineViewportStateCreateInfo viewport_info{};
+        viewport_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+        viewport_info.viewportCount = 1;
+        viewport_info.pViewports = &config_info.viewport;
+        viewport_info.scissorCount = 1;
+        viewport_info.pScissors = &config_info.scissor;
 
         VkGraphicsPipelineCreateInfo pipeline_info{};
         pipeline_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -167,7 +169,7 @@ namespace vk_engine
         pipeline_info.pStages = shader_stages;
         pipeline_info.pVertexInputState = &vertex_input_info;
         pipeline_info.pInputAssemblyState = &config_info.input_assembly_info;
-        pipeline_info.pViewportState = &config_info.viewport_info;
+        pipeline_info.pViewportState = &viewport_info;
         pipeline_info.pRasterizationState = &config_info.rasterization_info;
         pipeline_info.pMultisampleState = &config_info.multisample_info;
         pipeline_info.pColorBlendState = &config_info.color_blend_info;
@@ -181,7 +183,7 @@ namespace vk_engine
         pipeline_info.basePipelineIndex = -1; 
         pipeline_info.basePipelineHandle = VK_NULL_HANDLE;
 
-        if (vkCreateGraphicsPipelines(vk_device_.device(), VK_NULL_HANDLE, 1, &pipeline_info, nullptr, &graphics_pipeline_) != VK_SUCCESS)
+        if (vkCreateGraphicsPipelines(device.device(), VK_NULL_HANDLE, 1, &pipeline_info, nullptr, &graphics_pipeline) != VK_SUCCESS)
             throw std::runtime_error("Failed to create graphics pipeline!");
     }
 
@@ -192,7 +194,7 @@ namespace vk_engine
         create_info.codeSize = code.size();
         create_info.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
-        if (vkCreateShaderModule(vk_device_.device(), &create_info, nullptr, shader_module) != VK_SUCCESS)
+        if (vkCreateShaderModule(device.device(), &create_info, nullptr, shader_module) != VK_SUCCESS)
             throw std::runtime_error("Failed to create shader module!");
     }
     

@@ -18,15 +18,17 @@ namespace vk_engine
 
         bool should_close() const;
 
-        void create_window_surface(VkInstance instance, VkSurfaceKHR* surface);
+        VkExtent2D get_extent() const;
+
+        void create_window_surface(VkInstance instance, VkSurfaceKHR* surface) const;
 
     private:
         void init_window();
 
-        const int width_{};
-        const int height_{};
+        const int width{};
+        const int height{};
 
-        std::string window_name_;
-        GLFWwindow* window_;
+        std::string window_name;
+        GLFWwindow* window;
     };
 }

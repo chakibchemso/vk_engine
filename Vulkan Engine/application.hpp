@@ -3,27 +3,44 @@
 #include "vk_window.hpp"
 #include "vk_pipeline.hpp"
 #include "vk_device.hpp"
+#include "vk_swapchain.hpp"
+
+#include <memory>
 
 namespace vk_engine
 {
-    class application
-    {
-    public:
-        static constexpr int width = 800;
-        static constexpr int height = 600;
+	class application
+	{
+	public:
+		static constexpr int width = 800;
+		static constexpr int height = 600;
 
-        void run();
+		application();
+		~application();
 
-    private:
-        vk_window window_{width, height, "hello Vulkan!"};
+		application(const application&) = delete;
+		application& operator=(const application&) = delete;
 
-        vk_device device_{window_};
+		void run();
 
-        vk_pipeline pipeline_{
-            device_,
-            "shaders/simple_shader.vert.spv",
-            "shaders/simple_shader.frag.spv",
-            vk_pipeline::default_pipeline_config_info(width, height)
-        };
-    };
+	private:
+		void create_pipeline_layout();
+		void create_pipeline();
+
+		void create_command_buffers();
+
+		void draw_frame();
+
+		vk_window window{width, height, "hello Vulkan!"};
+
+		vk_device device{window};
+
+		vk_swapchain swapchain{device, window.get_extent()};
+
+		std::unique_ptr<vk_pipeline> pipeline;
+
+		VkPipelineLayout pipeline_layout;
+
+		std::vector<VkCommandBuffer> command_buffers;
+	};
 }
