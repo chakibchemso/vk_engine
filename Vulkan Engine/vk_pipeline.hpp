@@ -35,6 +35,8 @@ namespace vk_engine
         vk_pipeline(const vk_pipeline&) = delete;
         void operator=(const vk_pipeline&) = delete;
 
+        void bind(VkCommandBuffer command_buffer);
+
         static pipeline_config_info default_pipeline_config_info(uint32_t width, uint32_t height);
 
     private:

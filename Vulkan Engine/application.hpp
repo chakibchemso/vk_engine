@@ -39,7 +39,7 @@ namespace vk_engine
 
 		std::unique_ptr<vk_pipeline> pipeline;
 
-		VkPipelineLayout pipeline_layout;
+		VkPipelineLayout pipeline_layout{};
 
 		std::vector<VkCommandBuffer> command_buffers;
 	};

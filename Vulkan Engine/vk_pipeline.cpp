@@ -22,6 +22,11 @@ namespace vk_engine
         vkDestroyPipeline(device.device(), graphics_pipeline, nullptr);
     }
 
+    void vk_pipeline::bind(VkCommandBuffer command_buffer)
+    {
+        vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline);
+    }
+
     pipeline_config_info vk_pipeline::default_pipeline_config_info(const uint32_t width, const uint32_t height)
     {
         pipeline_config_info config_info{};
@@ -153,7 +158,7 @@ namespace vk_engine
         vertex_input_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
         vertex_input_info.vertexAttributeDescriptionCount = 0;
         vertex_input_info.vertexBindingDescriptionCount = 0;
-        vertex_input_info.pVertexAttributeDescriptions = nullptr; 
+        vertex_input_info.pVertexAttributeDescriptions = nullptr;
         vertex_input_info.pVertexBindingDescriptions = nullptr;
 
         VkPipelineViewportStateCreateInfo viewport_info{};
@@ -174,13 +179,13 @@ namespace vk_engine
         pipeline_info.pMultisampleState = &config_info.multisample_info;
         pipeline_info.pColorBlendState = &config_info.color_blend_info;
         pipeline_info.pDepthStencilState = &config_info.depth_stencil_info;
-        pipeline_info.pDynamicState = nullptr; 
+        pipeline_info.pDynamicState = nullptr;
 
         pipeline_info.layout = config_info.pipeline_layout;
         pipeline_info.renderPass = config_info.render_pass;
         pipeline_info.subpass = config_info.sub_pass;
 
-        pipeline_info.basePipelineIndex = -1; 
+        pipeline_info.basePipelineIndex = -1;
         pipeline_info.basePipelineHandle = VK_NULL_HANDLE;
 
         if (vkCreateGraphicsPipelines(device.device(), VK_NULL_HANDLE, 1, &pipeline_info, nullptr, &graphics_pipeline) != VK_SUCCESS)
