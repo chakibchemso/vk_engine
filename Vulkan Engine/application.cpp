@@ -107,7 +107,7 @@ namespace vk_engine
             throw std::runtime_error("Failed to acquire swap chain image!");
 
         result = swapchain.submit_command_buffers(&command_buffers[image_index], &image_index);
-        if (result != VK_SUCCESS)
+        if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
             throw std::runtime_error("Failed to present swap chain image!");
     }
 }
