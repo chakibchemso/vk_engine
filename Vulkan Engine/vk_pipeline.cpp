@@ -1,4 +1,5 @@
 #include "vk_pipeline.hpp"
+#include "vk_model.hpp"
 
 #include <cassert>
 #include <fstream>
@@ -153,13 +154,16 @@ namespace vk_engine
         shader_stages[1].flags = 0;
         shader_stages[1].pNext = nullptr;
         shader_stages[1].pSpecializationInfo = nullptr;
-
+        
+        const auto attributes_descriptions = vk_model::vertex::get_attribute_descriptions();
+        const auto binding_descriptions = vk_model::vertex::get_binding_descriptions();
+        
         VkPipelineVertexInputStateCreateInfo vertex_input_info{};
         vertex_input_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-        vertex_input_info.vertexAttributeDescriptionCount = 0;
-        vertex_input_info.vertexBindingDescriptionCount = 0;
-        vertex_input_info.pVertexAttributeDescriptions = nullptr;
-        vertex_input_info.pVertexBindingDescriptions = nullptr;
+        vertex_input_info.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributes_descriptions.size());
+        vertex_input_info.vertexBindingDescriptionCount = static_cast<uint32_t>(binding_descriptions.size());
+        vertex_input_info.pVertexAttributeDescriptions = attributes_descriptions.data();
+        vertex_input_info.pVertexBindingDescriptions = binding_descriptions.data();
 
         VkPipelineViewportStateCreateInfo viewport_info{};
         viewport_info.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;

@@ -14,6 +14,7 @@
         <ClCompile Include="application.cpp" />
         <ClCompile Include="main.cpp" />
         <ClCompile Include="vk_device.cpp" />
+        <ClCompile Include="vk_model.cpp" />
         <ClCompile Include="vk_pipeline.cpp" />
         <ClCompile Include="vk_swapchain.cpp" />
         <ClCompile Include="vk_window.cpp" />
@@ -21,6 +22,7 @@
     <ItemGroup>
         <ClInclude Include="application.hpp" />
         <ClInclude Include="vk_device.hpp" />
+        <ClInclude Include="vk_model.hpp" />
         <ClInclude Include="vk_pipeline.hpp" />
         <ClInclude Include="vk_swapchain.hpp" />
         <ClInclude Include="vk_window.hpp" />

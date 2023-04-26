@@ -8,6 +8,7 @@ namespace vk_engine
 {
     application::application()
     {
+        load_models();
         create_pipeline_layout();
         create_pipeline();
         create_command_buffers();
@@ -27,6 +28,17 @@ namespace vk_engine
         }
 
         vkDeviceWaitIdle(device.device());
+    }
+
+    void application::load_models()
+    {
+        std::vector<vk_model::vertex> vertices{
+            {{0.0f, -0.5f}},
+            {{0.5f, 0.5f}},
+            {{-0.5f, 0.5f}}
+        };
+
+        model = std::make_unique<vk_model>(device, vertices);
     }
 
     void application::create_pipeline_layout()
@@ -91,9 +103,11 @@ namespace vk_engine
             vkCmdBeginRenderPass(command_buffers[i], &render_pass_begin_info, VK_SUBPASS_CONTENTS_INLINE);
 
             pipeline->bind(command_buffers[i]);
-            vkCmdDraw(command_buffers[i], 3, 1, 0, 0);
+            model->bind(command_buffers[i]);
+            model->draw(command_buffers[i]);
 
             vkCmdEndRenderPass(command_buffers[i]);
+            
             if (vkEndCommandBuffer(command_buffers[i]) != VK_SUCCESS)
                 throw std::runtime_error("Failed to record command buffer!");
         }

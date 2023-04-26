@@ -7,6 +7,8 @@
 
 #include <memory>
 
+#include "vk_model.hpp"
+
 namespace vk_engine
 {
 	class application
@@ -24,6 +26,7 @@ namespace vk_engine
 		void run();
 
 	private:
+		void load_models();
 		void create_pipeline_layout();
 		void create_pipeline();
 
@@ -42,5 +45,7 @@ namespace vk_engine
 		VkPipelineLayout pipeline_layout{};
 
 		std::vector<VkCommandBuffer> command_buffers;
+
+		std::unique_ptr<vk_model> model;
 	};
 }

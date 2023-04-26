@@ -29,6 +29,6 @@ namespace vk_engine
         const int height{};
 
         std::string window_name;
-        GLFWwindow* window;
+        GLFWwindow* window{};
     };
 }
