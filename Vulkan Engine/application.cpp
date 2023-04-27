@@ -33,9 +33,9 @@ namespace vk_engine
     void application::load_models()
     {
         std::vector<vk_model::vertex> vertices{
-            {{0.0f, -0.5f}},
-            {{0.5f, 0.5f}},
-            {{-0.5f, 0.5f}}
+            {{ 0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+            {{ 0.5f,  0.5f}, {0.0f, 1.0f, 0.0f}},
+            {{-0.5f,  0.5f}, {0.0f, 0.0f, 1.0f}}
         };
 
         model = std::make_unique<vk_model>(device, vertices);
