@@ -7,6 +7,7 @@
 
 // std lib headers
 #include <vector>
+#include <memory>
 
 namespace vk_engine
 {
@@ -16,10 +17,11 @@ namespace vk_engine
 		static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
 
 		vk_swapchain(vk_device& device_ref, VkExtent2D window_extent);
+		vk_swapchain(vk_device& device_ref, VkExtent2D window_extent, std::shared_ptr<vk_swapchain> previous);
 		~vk_swapchain();
 
 		vk_swapchain(const vk_swapchain&) = delete;
-		void operator=(const vk_swapchain&) = delete;
+		vk_swapchain& operator=(const vk_swapchain&) = delete;
 
 		VkFramebuffer get_frame_buffer(const int index) const { return swap_chain_framebuffers[index]; }
 		VkRenderPass get_render_pass() const { return render_pass; }
@@ -41,6 +43,7 @@ namespace vk_engine
 		VkResult submit_command_buffers(const VkCommandBuffer* buffers, const uint32_t* image_index);
 
 	private:
+		void init();
 		void create_swap_chain();
 		void create_image_views();
 		void create_depth_resources();
@@ -71,6 +74,7 @@ namespace vk_engine
 		VkExtent2D window_extent;
 
 		VkSwapchainKHR swap_chain{};
+		std::shared_ptr<vk_swapchain> old_swap_chain;
 
 		std::vector<VkSemaphore> image_available_semaphores;
 		std::vector<VkSemaphore> render_finished_semaphores;

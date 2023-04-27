@@ -31,14 +31,17 @@ namespace vk_engine
 		void create_pipeline();
 
 		void create_command_buffers();
-
+		void free_command_buffers();
 		void draw_frame();
+
+		void recreate_swap_chain();
+		void record_command_buffer(int image_index) const;
 
 		vk_window window{width, height, "hello Vulkan!"};
 
 		vk_device device{window};
 
-		vk_swapchain swapchain{device, window.get_extent()};
+		std::unique_ptr<vk_swapchain> swapchain;
 
 		std::unique_ptr<vk_pipeline> pipeline;
 

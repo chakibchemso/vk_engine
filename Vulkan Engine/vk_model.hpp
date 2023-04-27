@@ -19,8 +19,8 @@ namespace vk_engine
 			static std::vector<VkVertexInputBindingDescription> get_binding_descriptions();
 			static std::vector<VkVertexInputAttributeDescription> get_attribute_descriptions();
 		};
-		
-		vk_model(vk_device &device, const std::vector<vertex> &vertices);
+
+		vk_model(vk_device& device, const std::vector<vertex>& vertices);
 		~vk_model();
 
 		vk_model(const vk_model&) = delete;
@@ -28,11 +28,11 @@ namespace vk_engine
 
 		void bind(VkCommandBuffer command_buffer) const;
 		void draw(VkCommandBuffer command_buffer) const;
-		
+
 	private:
-		void create_vertex_buffers(const std::vector<vertex> &vertices);
-		
-		vk_device &device;
+		void create_vertex_buffers(const std::vector<vertex>& vertices);
+
+		vk_device& device;
 		VkBuffer vertex_buffer{};
 		VkDeviceMemory vertex_buffer_memory{};
 		uint32_t vertex_count{};

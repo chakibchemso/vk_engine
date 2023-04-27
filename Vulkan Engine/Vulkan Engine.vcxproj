@@ -11,26 +11,26 @@
         </ProjectConfiguration>
     </ItemGroup>
     <ItemGroup>
-        <ClCompile Include="application.cpp" />
-        <ClCompile Include="main.cpp" />
-        <ClCompile Include="vk_device.cpp" />
-        <ClCompile Include="vk_model.cpp" />
-        <ClCompile Include="vk_pipeline.cpp" />
-        <ClCompile Include="vk_swapchain.cpp" />
-        <ClCompile Include="vk_window.cpp" />
+        <ClCompile Include="application.cpp"/>
+        <ClCompile Include="main.cpp"/>
+        <ClCompile Include="vk_device.cpp"/>
+        <ClCompile Include="vk_model.cpp"/>
+        <ClCompile Include="vk_pipeline.cpp"/>
+        <ClCompile Include="vk_swapchain.cpp"/>
+        <ClCompile Include="vk_window.cpp"/>
     </ItemGroup>
     <ItemGroup>
-        <ClInclude Include="application.hpp" />
-        <ClInclude Include="vk_device.hpp" />
-        <ClInclude Include="vk_model.hpp" />
-        <ClInclude Include="vk_pipeline.hpp" />
-        <ClInclude Include="vk_swapchain.hpp" />
-        <ClInclude Include="vk_window.hpp" />
+        <ClInclude Include="application.hpp"/>
+        <ClInclude Include="vk_device.hpp"/>
+        <ClInclude Include="vk_model.hpp"/>
+        <ClInclude Include="vk_pipeline.hpp"/>
+        <ClInclude Include="vk_swapchain.hpp"/>
+        <ClInclude Include="vk_window.hpp"/>
     </ItemGroup>
     <ItemGroup>
-        <Content Include="compile_shaders.bat" />
-        <Content Include="shaders\simple_shader.frag" />
-        <Content Include="shaders\simple_shader.vert" />
+        <Content Include="compile_shaders.bat"/>
+        <Content Include="shaders\simple_shader.frag"/>
+        <Content Include="shaders\simple_shader.vert"/>
     </ItemGroup>
     <PropertyGroup Label="Globals">
         <VCProjectVersion>15.0</VCProjectVersion>
@@ -39,7 +39,7 @@
         <RootNamespace>Vulkan_Engine</RootNamespace>
         <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     </PropertyGroup>
-    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
     <PropertyGroup>
         <PreferredToolArchitecture>x64</PreferredToolArchitecture>
     </PropertyGroup>
@@ -56,18 +56,18 @@
         <WholeProgramOptimization>true</WholeProgramOptimization>
         <CharacterSet>Unicode</CharacterSet>
     </PropertyGroup>
-    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
     <ImportGroup Label="ExtensionSettings">
     </ImportGroup>
     <ImportGroup Label="Shared">
     </ImportGroup>
     <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
     </ImportGroup>
     <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
     </ImportGroup>
-    <PropertyGroup Label="UserMacros" />
+    <PropertyGroup Label="UserMacros"/>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
         <LinkIncremental>true</LinkIncremental>
     </PropertyGroup>
@@ -118,7 +118,7 @@
             <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);vulkan-1.lib;glfw3.lib</AdditionalDependencies>
         </Link>
     </ItemDefinitionGroup>
-    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
     <ImportGroup Label="ExtensionTargets">
     </ImportGroup>
 </Project>

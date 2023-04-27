@@ -12,12 +12,16 @@ namespace vk_engine
 	vk_swapchain::vk_swapchain(vk_device& device_ref, const VkExtent2D window_extent)
 		: device{device_ref}, window_extent{window_extent}
 	{
-		create_swap_chain();
-		create_image_views();
-		create_render_pass();
-		create_depth_resources();
-		create_framebuffers();
-		create_sync_objects();
+		init();
+	}
+
+	vk_swapchain::vk_swapchain(vk_device& device_ref, VkExtent2D window_extent, std::shared_ptr<vk_swapchain> previous)
+		: device{device_ref}, window_extent{window_extent}
+	{
+		init();
+
+		//clean up old swap chain as its no longer needed
+		old_swap_chain = nullptr;
 	}
 
 	vk_swapchain::~vk_swapchain()
@@ -128,6 +132,16 @@ namespace vk_engine
 		return result;
 	}
 
+	void vk_swapchain::init()
+	{
+		create_swap_chain();
+		create_image_views();
+		create_render_pass();
+		create_depth_resources();
+		create_framebuffers();
+		create_sync_objects();
+	}
+
 	void vk_swapchain::create_swap_chain()
 	{
 		auto [capabilities, formats, present_modes] = device.get_swap_chain_support();
@@ -177,7 +191,7 @@ namespace vk_engine
 		create_info.presentMode = present_mode;
 		create_info.clipped = VK_TRUE;
 
-		create_info.oldSwapchain = VK_NULL_HANDLE;
+		create_info.oldSwapchain = old_swap_chain == nullptr ? VK_NULL_HANDLE : old_swap_chain->swap_chain;
 
 		if (vkCreateSwapchainKHR(device.device(), &create_info, nullptr, &swap_chain) != VK_SUCCESS)
 		{

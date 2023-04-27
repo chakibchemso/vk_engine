@@ -41,7 +41,6 @@ namespace vk_engine
 
 	void vk_model::bind(const VkCommandBuffer command_buffer) const
 	{
-		
 		const VkBuffer buffers[] = {vertex_buffer};
 		constexpr VkDeviceSize offsets[] = {0};
 		vkCmdBindVertexBuffers(command_buffer, 0, 1, buffers, offsets);
@@ -54,7 +53,7 @@ namespace vk_engine
 
 	void vk_model::create_vertex_buffers(const std::vector<vertex>& vertices)
 	{
-		vertex_count = static_cast<uint32_t> (vertices.size());
+		vertex_count = static_cast<uint32_t>(vertices.size());
 		assert(vertex_count >= 3 && "Vertex count must be at least 3");
 		const VkDeviceSize buffer_size = sizeof vertices[0] * vertex_count;
 		device.create_buffer(
@@ -63,7 +62,7 @@ namespace vk_engine
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 			vertex_buffer,
 			vertex_buffer_memory);
-		void *data;
+		void* data;
 		vkMapMemory(device.device(), vertex_buffer_memory, 0, buffer_size, 0, &data);
 		memcpy(data, vertices.data(), buffer_size);
 		vkUnmapMemory(device.device(), vertex_buffer_memory);
