@@ -1,6 +1,10 @@
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+
 #include "application.hpp"
 #include <glm/glm.hpp>
 #include "vk_device.hpp"
+#include "vk_model.hpp"
 
 #include <array>
 #include <future>
@@ -11,13 +15,14 @@ namespace vk_engine
 {
 	struct simple_push_const_data
 	{
+		glm::mat2 transform{1.0f};
 		glm::vec2 offset;
 		alignas(16) glm::vec3 color;
 	};
-	
+
 	application::application()
 	{
-		load_models();
+		load_game_objects();
 		create_pipeline_layout();
 		recreate_swap_chain();
 		create_command_buffers();
@@ -39,7 +44,7 @@ namespace vk_engine
 		vkDeviceWaitIdle(device.device());
 	}
 
-	void application::load_models()
+	void application::load_game_objects()
 	{
 		std::vector<vk_model::vertex> vertices{
 			{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
@@ -47,16 +52,50 @@ namespace vk_engine
 			{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
 		};
 
-		model = std::make_unique<vk_model>(device, vertices);
+		// https://www.color-hex.com/color-palette/5361
+		std::vector<glm::vec3> colors{
+			{1.f, .7f, .73f},
+			{1.f, .87f, .73f},
+			{1.f, 1.f, .73f},
+			{.73f, 1.f, .8f},
+			{.73, .88f, 1.f}
+		};
+
+		const auto triangle_model = std::make_shared<vk_model>(device, vertices);
+
+		// auto triangle = vk_game_object::create_game_object();
+		// triangle.model = triangle_model;
+		// triangle.color = {.1f, .8f, .1f};
+		// triangle.transform2d.translation.x = .2f;
+		// triangle.transform2d.scale = {1.f, .5f};
+		// triangle.transform2d.rotation = glm::radians(90.f);
+		//
+		// game_objects.push_back(std::move(triangle));
+
+		for (auto& color : colors)
+		{
+			color = pow(color, glm::vec3{2.2f});
+		}
+
+		for (int i = 0; i < 40; i++)
+		{
+			auto triangle = vk_game_object::create_game_object();
+			triangle.model = triangle_model;
+			triangle.transform2d.scale = glm::vec2(.5f) + i * 0.025f;
+			triangle.transform2d.rotation = i * glm::radians(45.f);
+			triangle.color = colors[i % colors.size()];
+			
+			game_objects.push_back(std::move(triangle));
+		}
 	}
 
 	void application::create_pipeline_layout()
 	{
-		VkPushConstantRange push_constant_range{};
+		VkPushConstantRange push_constant_range;
 		push_constant_range.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
 		push_constant_range.offset = 0;
 		push_constant_range.size = sizeof simple_push_const_data;
-		
+
 		VkPipelineLayoutCreateInfo pipeline_layout_info{};
 		pipeline_layout_info.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 		pipeline_layout_info.setLayoutCount = 0;
@@ -122,6 +161,7 @@ namespace vk_engine
 			throw std::runtime_error("Failed to acquire swap chain image!");
 
 		record_command_buffer(image_index);
+		
 		result = swapchain->submit_command_buffers(&command_buffers[image_index], &image_index);
 		if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || window.was_window_resized())
 		{
@@ -132,6 +172,39 @@ namespace vk_engine
 
 		if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
 			throw std::runtime_error("Failed to present swap chain image!");
+	}
+
+	void application::render_game_objects(const VkCommandBuffer command_buffer)
+	{
+		// update
+		int i = 0;
+		for (auto& game_object : game_objects)
+		{
+			i += 1;
+			game_object.transform2d.rotation =
+				glm::mod<float>(game_object.transform2d.rotation + 0.001f * i, glm::radians(360.f));
+		}
+		
+		pipeline->bind(command_buffer);
+
+		for (auto& game_object : game_objects)
+		{
+			simple_push_const_data push{};
+			push.transform = game_object.transform2d.mat2();
+			push.offset = game_object.transform2d.translation;
+			push.color = game_object.color;
+
+			vkCmdPushConstants(
+				command_buffer,
+				pipeline_layout,
+				VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+				0,
+				sizeof simple_push_const_data,
+				&push);
+
+			game_object.model->bind(command_buffer);
+			game_object.model->draw(command_buffer);
+		}
 	}
 
 	void application::recreate_swap_chain()
@@ -165,11 +238,8 @@ namespace vk_engine
 		create_pipeline();
 	}
 
-	void application::record_command_buffer(const int image_index) const
+	void application::record_command_buffer(const int image_index)
 	{
-		static int frame = 0;
-		frame = (frame + 1) % 1000;
-		
 		VkCommandBufferBeginInfo begin_info{};
 		begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
@@ -203,26 +273,8 @@ namespace vk_engine
 		vkCmdSetViewport(command_buffers[image_index], 0, 1, &viewport);
 		vkCmdSetScissor(command_buffers[image_index], 0, 1, &scissor);
 
-		pipeline->bind(command_buffers[image_index]);
-		model->bind(command_buffers[image_index]);
+		render_game_objects(command_buffers[image_index]);
 
-		for (auto i = 0; i < 4; ++i)
-		{
-			simple_push_const_data push{};
-			push.offset = {-0.05f + frame * 0.002f, -0.4f + i * 0.25f};
-			push.color = {0.0f, 0.0f, 0.2f + 0.2f * i};
-
-			vkCmdPushConstants(
-				command_buffers[image_index],
-				pipeline_layout,
-				VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-				0,
-				sizeof simple_push_const_data,
-				&push);
-			
-			model->draw(command_buffers[image_index]);
-		}
-		
 		vkCmdEndRenderPass(command_buffers[image_index]);
 
 		if (vkEndCommandBuffer(command_buffers[image_index]) != VK_SUCCESS)

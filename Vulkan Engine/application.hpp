@@ -7,6 +7,7 @@
 
 #include <memory>
 
+#include "vk_game_object.hpp"
 #include "vk_model.hpp"
 
 namespace vk_engine
@@ -26,16 +27,17 @@ namespace vk_engine
 		void run();
 
 	private:
-		void load_models();
+		void load_game_objects();
 		void create_pipeline_layout();
 		void create_pipeline();
 
 		void create_command_buffers();
 		void free_command_buffers();
 		void draw_frame();
+		void render_game_objects(VkCommandBuffer command_buffer);
 
 		void recreate_swap_chain();
-		void record_command_buffer(int image_index) const;
+		void record_command_buffer(int image_index);
 
 		vk_window window{width, height, "Vulkan!"};
 
@@ -49,6 +51,6 @@ namespace vk_engine
 
 		std::vector<VkCommandBuffer> command_buffers;
 
-		std::unique_ptr<vk_model> model;
+		std::vector<vk_game_object> game_objects;
 	};
 }

@@ -3,8 +3,8 @@
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
-#include "vk_device.hpp"
 #include <glm/glm.hpp>
+#include "vk_device.hpp"
 
 namespace vk_engine
 {
