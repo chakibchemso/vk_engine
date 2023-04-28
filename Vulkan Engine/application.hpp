@@ -37,7 +37,7 @@ namespace vk_engine
 		void recreate_swap_chain();
 		void record_command_buffer(int image_index) const;
 
-		vk_window window{width, height, "hello Vulkan!"};
+		vk_window window{width, height, "Vulkan!"};
 
 		vk_device device{window};
 

@@ -3,7 +3,6 @@
 #include "vk_window.hpp"
 
 // std lib headers
-#include <string>
 #include <vector>
 
 namespace vk_engine
