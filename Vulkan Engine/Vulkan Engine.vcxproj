@@ -17,6 +17,8 @@
         <ClCompile Include="vk_game_object.cpp" />
         <ClCompile Include="vk_model.cpp" />
         <ClCompile Include="vk_pipeline.cpp" />
+        <ClCompile Include="vk_renderer.cpp" />
+        <ClCompile Include="vk_simple_render_system.cpp" />
         <ClCompile Include="vk_swapchain.cpp" />
         <ClCompile Include="vk_window.cpp" />
     </ItemGroup>
@@ -26,6 +28,8 @@
         <ClInclude Include="vk_game_object.hpp" />
         <ClInclude Include="vk_model.hpp" />
         <ClInclude Include="vk_pipeline.hpp" />
+        <ClInclude Include="vk_renderer.hpp" />
+        <ClInclude Include="vk_simple_render_system.hpp" />
         <ClInclude Include="vk_swapchain.hpp" />
         <ClInclude Include="vk_window.hpp" />
     </ItemGroup>

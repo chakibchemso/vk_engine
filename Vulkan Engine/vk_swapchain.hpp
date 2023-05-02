@@ -42,6 +42,8 @@ namespace vk_engine
 		VkResult acquire_next_image(uint32_t* image_index) const;
 		VkResult submit_command_buffers(const VkCommandBuffer* buffers, const uint32_t* image_index);
 
+		bool compare_swap_formats(const vk_swapchain& swap_chain) const;
+
 	private:
 		void init();
 		void create_swap_chain();
@@ -59,6 +61,7 @@ namespace vk_engine
 		VkExtent2D choose_swap_extent(const VkSurfaceCapabilitiesKHR& capabilities) const;
 
 		VkFormat swap_chain_image_format;
+		VkFormat swap_chain_depth_format;
 		VkExtent2D swap_chain_extent{};
 
 		std::vector<VkFramebuffer> swap_chain_framebuffers;

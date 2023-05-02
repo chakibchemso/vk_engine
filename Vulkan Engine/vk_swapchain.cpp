@@ -132,6 +132,12 @@ namespace vk_engine
 		return result;
 	}
 
+	bool vk_swapchain::compare_swap_formats(const vk_swapchain& swap_chain) const
+	{
+		return swap_chain.swap_chain_depth_format == swap_chain_depth_format &&
+			swap_chain.swap_chain_image_format == swap_chain_image_format;
+	}
+
 	void vk_swapchain::init()
 	{
 		create_swap_chain();
@@ -328,6 +334,7 @@ namespace vk_engine
 	void vk_swapchain::create_depth_resources()
 	{
 		const VkFormat depth_format = find_depth_format();
+		swap_chain_depth_format = depth_format;
 		auto [width, height] = get_swap_chain_extent();
 
 		depth_images.resize(image_count());
