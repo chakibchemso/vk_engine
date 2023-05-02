@@ -15,6 +15,12 @@ namespace vk_engine
 		glm::mat2 mat2();
 	};
 
+	struct rigid_body2d_component
+	{
+		glm::vec2 velocity;
+		float mass{1.0f};
+	};
+
 	class vk_game_object
 	{
 	public:
@@ -30,6 +36,7 @@ namespace vk_engine
 		std::shared_ptr<vk_model> model{};
 		glm::vec3 color{};
 		transform2d_component transform2d{};
+		rigid_body2d_component rigid_body2d{};
 
 	private:
 		explicit vk_game_object(id_t object_id);
