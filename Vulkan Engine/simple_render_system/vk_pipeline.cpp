@@ -5,7 +5,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "vk_model.hpp"
+#include "../engine/vk_model.hpp"
 
 namespace vk_engine
 {

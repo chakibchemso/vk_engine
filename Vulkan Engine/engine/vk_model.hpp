@@ -4,7 +4,7 @@
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
 #include <glm/glm.hpp>
-#include "vk_device.hpp"
+#include "../renderer/vk_device.hpp"
 
 namespace vk_engine
 {

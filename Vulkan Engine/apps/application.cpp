@@ -3,9 +3,9 @@
 
 #include "application.hpp"
 #include <glm/glm.hpp>
-#include "vk_device.hpp"
-#include "vk_model.hpp"
-#include "vk_simple_render_system.hpp"
+#include "../engine/vk_model.hpp"
+#include "../renderer/vk_device.hpp"
+#include "../simple_render_system/vk_simple_render_system.hpp"
 
 #include <future>
 
@@ -22,11 +22,11 @@ namespace vk_engine
 	void application::run()
 	{
 		vk_simple_render_system simple_render_system{device, renderer.get_swap_chain_render_pass()};
-		
+
 		while (!window.should_close())
 		{
 			glfwPollEvents();
-			
+
 			if (const auto command_buffer = renderer.begin_frame())
 			{
 				renderer.begin_swap_chain_render_pass(command_buffer);
@@ -79,7 +79,7 @@ namespace vk_engine
 			triangle.transform2d.scale = glm::vec2(.5f) + i * 0.025f;
 			triangle.transform2d.rotation = i * glm::radians(45.f);
 			triangle.color = colors[i % colors.size()];
-			
+
 			game_objects.push_back(std::move(triangle));
 		}
 	}

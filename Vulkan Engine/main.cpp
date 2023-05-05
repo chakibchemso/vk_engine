@@ -1,7 +1,7 @@
-#include "application.hpp"
-#include <iostream>
+#include "apps/application.hpp"
+#include "apps/gravity_vec_field_app.hpp"
 
-#include "gravity_vec_field_app.hpp"
+#include <iostream>
 
 int main()
 {

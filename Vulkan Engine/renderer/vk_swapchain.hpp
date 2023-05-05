@@ -6,8 +6,8 @@
 #include <vulkan/vulkan.h>
 
 // std lib headers
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace vk_engine
 {

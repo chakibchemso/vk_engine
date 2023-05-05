@@ -1,8 +1,8 @@
 #pragma once
 
-#include "vk_window.hpp"
 #include "vk_device.hpp"
 #include "vk_swapchain.hpp"
+#include "vk_window.hpp"
 
 #include <memory>
 

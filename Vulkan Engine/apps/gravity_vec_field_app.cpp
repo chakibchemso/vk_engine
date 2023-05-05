@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 
-#include "vk_simple_render_system.hpp"
+#include "../simple_render_system/vk_simple_render_system.hpp"
 
 namespace vk_engine
 {

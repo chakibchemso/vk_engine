@@ -1,8 +1,8 @@
 #pragma once
 
-#include "vk_device.hpp"
 #include <string>
 #include <vector>
+#include "../renderer/vk_device.hpp"
 
 namespace vk_engine
 {

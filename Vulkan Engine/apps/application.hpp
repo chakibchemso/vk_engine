@@ -1,23 +1,23 @@
 #pragma once
 
-#include "vk_device.hpp"
-#include "vk_game_object.hpp"
-#include "vk_renderer.hpp"
-#include "vk_window.hpp"
+#include "../engine/vk_game_object.hpp"
+#include "../renderer/vk_device.hpp"
+#include "../renderer/vk_renderer.hpp"
+#include "../renderer/vk_window.hpp"
 
 namespace vk_engine
 {
-	class gravity_vec_field_app
+	class application
 	{
 	public:
 		static constexpr int width = 800;
 		static constexpr int height = 600;
 
-		gravity_vec_field_app();
-		~gravity_vec_field_app();
+		application();
+		~application();
 
-		gravity_vec_field_app(const gravity_vec_field_app&) = delete;
-		gravity_vec_field_app& operator=(const gravity_vec_field_app&) = delete;
+		application(const application&) = delete;
+		application& operator=(const application&) = delete;
 
 		void run();
 
@@ -27,7 +27,7 @@ namespace vk_engine
 		vk_window window{width, height, "Vulkan!"};
 		vk_device device{window};
 		vk_renderer renderer{window, device};
-		
+
 		std::vector<vk_game_object> game_objects;
 	};
 }

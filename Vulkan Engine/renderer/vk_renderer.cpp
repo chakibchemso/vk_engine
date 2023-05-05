@@ -42,7 +42,7 @@ namespace vk_engine
 		const auto command_buffer = get_current_command_buffer();
 		VkCommandBufferBeginInfo begin_info{};
 		begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-		
+
 		if (vkBeginCommandBuffer(command_buffer, &begin_info) != VK_SUCCESS)
 			throw std::runtime_error("Failed to begin recording command buffer!");
 
@@ -73,8 +73,10 @@ namespace vk_engine
 	void vk_renderer::begin_swap_chain_render_pass(const VkCommandBuffer command_buffer) const
 	{
 		assert(is_frame_started && "Cannot call begin_swap_chain_render_pass if frame is not in progress.");
-		assert(command_buffer == get_current_command_buffer() && "Cannot begin render pass on command buffer from a different frame.");
-		
+		assert(
+			command_buffer == get_current_command_buffer() &&
+			"Cannot begin render pass on command buffer from a different frame.");
+
 		VkRenderPassBeginInfo render_pass_begin_info{};
 		render_pass_begin_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 		render_pass_begin_info.renderPass = swapchain->get_render_pass();
@@ -106,8 +108,10 @@ namespace vk_engine
 	void vk_renderer::end_swap_chain_render_pass(const VkCommandBuffer command_buffer) const
 	{
 		assert(is_frame_started && "Cannot call end_swap_chain_render_pass if frame is not in progress.");
-		assert(command_buffer == get_current_command_buffer() && "Cannot end render pass on command buffer from a different frame.");
-		
+		assert(
+			command_buffer == get_current_command_buffer() &&
+			"Cannot end render pass on command buffer from a different frame.");
+
 		vkCmdEndRenderPass(command_buffer);
 	}
 
@@ -160,7 +164,7 @@ namespace vk_engine
 	void vk_renderer::recreate_swap_chain()
 	{
 		auto extent = window.get_extent();
-		
+
 		while (extent.width == 0 || extent.height == 0)
 		{
 			extent = window.get_extent();

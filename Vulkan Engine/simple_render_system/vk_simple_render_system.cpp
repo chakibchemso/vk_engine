@@ -3,8 +3,8 @@
 
 #include "vk_simple_render_system.hpp"
 #include <glm/glm.hpp>
-#include "vk_device.hpp"
-#include "vk_model.hpp"
+#include "../engine/vk_model.hpp"
+#include "../renderer/vk_device.hpp"
 
 #include <future>
 #include <stdexcept>
@@ -61,7 +61,8 @@ namespace vk_engine
 			pipeline_config);
 	}
 
-	void vk_simple_render_system::render_game_objects(const VkCommandBuffer command_buffer, std::vector<vk_game_object>& game_objects) const
+	void vk_simple_render_system::render_game_objects(const VkCommandBuffer command_buffer,
+	                                                  std::vector<vk_game_object>& game_objects) const
 	{
 		// update
 		int i = 0;
@@ -71,7 +72,7 @@ namespace vk_engine
 			game_object.transform2d.rotation =
 				glm::mod<float>(game_object.transform2d.rotation + 0.001f * i, glm::radians(360.f));
 		}
-		
+
 		pipeline->bind(command_buffer);
 
 		for (auto& game_object : game_objects)
