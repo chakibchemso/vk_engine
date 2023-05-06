@@ -15,7 +15,8 @@ namespace vk_engine
 		init();
 	}
 
-	vk_swapchain::vk_swapchain(vk_device& device_ref, VkExtent2D window_extent, std::shared_ptr<vk_swapchain> previous)
+	vk_swapchain::vk_swapchain(vk_device& device_ref, const VkExtent2D window_extent,
+	                           std::shared_ptr<vk_swapchain> previous)
 		: device{device_ref}, window_extent{window_extent}
 	{
 		init();

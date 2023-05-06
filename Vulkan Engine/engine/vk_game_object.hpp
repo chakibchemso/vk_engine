@@ -1,23 +1,23 @@
 #pragma once
 #include <memory>
-#include <glm/glm.hpp>
+#include <glm/ext.hpp>
 
 #include "vk_model.hpp"
 
 namespace vk_engine
 {
-	struct transform2d_component
+	struct transform_component
 	{
-		glm::vec2 translation{};
-		glm::vec2 scale{1.f, 1.f};
-		float rotation;
+		glm::vec3 translation{};
+		glm::vec3 scale{1.f};
+		glm::vec3 rotation;
 
-		glm::mat2 mat2();
+		glm::mat4 mat4() const;
 	};
 
-	struct rigid_body2d_component
+	struct rigid_body_component
 	{
-		glm::vec2 velocity;
+		glm::vec3 velocity;
 		float mass{1.0f};
 	};
 
@@ -35,8 +35,8 @@ namespace vk_engine
 
 		std::shared_ptr<vk_model> model{};
 		glm::vec3 color{};
-		transform2d_component transform2d{};
-		rigid_body2d_component rigid_body2d{};
+		transform_component transform{};
+		rigid_body_component rigid_body{};
 
 	private:
 		explicit vk_game_object(id_t object_id);

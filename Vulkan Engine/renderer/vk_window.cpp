@@ -36,7 +36,7 @@ namespace vk_engine
 		return {static_cast<uint32_t>(width), static_cast<uint32_t>(height)};
 	}
 
-	void vk_window::create_window_surface(VkInstance instance, VkSurfaceKHR* surface) const
+	void vk_window::create_window_surface(const VkInstance instance, VkSurfaceKHR* surface) const
 	{
 		if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS)
 			throw std::runtime_error("Failed to create window surface!");

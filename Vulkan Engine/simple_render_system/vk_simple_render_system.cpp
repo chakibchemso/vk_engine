@@ -13,12 +13,11 @@ namespace vk_engine
 {
 	struct simple_push_const_data
 	{
-		glm::mat2 transform{1.0f};
-		glm::vec2 offset;
+		glm::mat4 transform{1.f};
 		alignas(16) glm::vec3 color;
 	};
 
-	vk_simple_render_system::vk_simple_render_system(vk_device& device, VkRenderPass render_pass) : device{device}
+	vk_simple_render_system::vk_simple_render_system(vk_device& device, const VkRenderPass render_pass) : device{device}
 	{
 		create_pipeline_layout();
 		create_pipeline(render_pass);
@@ -46,7 +45,7 @@ namespace vk_engine
 			throw std::runtime_error("Failed to create pipeline layout!");
 	}
 
-	void vk_simple_render_system::create_pipeline(VkRenderPass render_pass)
+	void vk_simple_render_system::create_pipeline(const VkRenderPass render_pass)
 	{
 		assert(pipeline_layout != nullptr && "Cannot create pipeline before pipeline layout");
 
@@ -64,22 +63,12 @@ namespace vk_engine
 	void vk_simple_render_system::render_game_objects(const VkCommandBuffer command_buffer,
 	                                                  std::vector<vk_game_object>& game_objects) const
 	{
-		// update
-		int i = 0;
-		for (auto& game_object : game_objects)
-		{
-			i += 1;
-			game_object.transform2d.rotation =
-				glm::mod<float>(game_object.transform2d.rotation + 0.001f * i, glm::radians(360.f));
-		}
-
 		pipeline->bind(command_buffer);
 
 		for (auto& game_object : game_objects)
 		{
 			simple_push_const_data push{};
-			push.transform = game_object.transform2d.mat2();
-			push.offset = game_object.transform2d.translation;
+			push.transform = game_object.transform.mat4();
 			push.color = game_object.color;
 
 			vkCmdPushConstants(

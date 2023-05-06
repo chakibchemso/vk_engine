@@ -24,7 +24,7 @@ namespace vk_engine
 		vkDestroyPipeline(device.device(), graphics_pipeline, nullptr);
 	}
 
-	void vk_pipeline::bind(VkCommandBuffer command_buffer)
+	void vk_pipeline::bind(const VkCommandBuffer command_buffer)
 	{
 		vkCmdBindPipeline(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphics_pipeline);
 	}

@@ -2,15 +2,15 @@
 
 namespace vk_engine
 {
-	glm::mat2 transform2d_component::mat2()
+	glm::mat4 transform_component::mat4() const
 	{
-		const float sin = glm::sin(rotation);
-		const float cos = glm::cos(rotation);
-
-		const glm::mat2 rotation_matrix{{cos, sin}, {-sin, cos}};
-		const glm::mat2 scale_matrix{{scale.x, .0f}, {.0f, scale.y}};
-
-		return rotation_matrix * scale_matrix;
+		//transform = T * Ry * Rx * Rz * S
+		auto transform = translate(glm::mat4(1.f), translation);
+		transform = rotate(transform, glm::radians(rotation.y), glm::vec3(0.f, 1.f, 0.f));
+		transform = rotate(transform, glm::radians(rotation.x), glm::vec3(1.f, 0.f, 0.f));
+		transform = rotate(transform, glm::radians(rotation.z), glm::vec3(0.f, 0.f, 1.f));
+		transform = glm::scale(transform, scale);
+		return transform;
 	}
 
 	vk_game_object vk_game_object::create_game_object()
