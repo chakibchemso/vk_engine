@@ -34,19 +34,19 @@ namespace vk_engine
 			}
 		}
 
-		glm::vec2 compute_force(const vk_game_object& from_obj, const vk_game_object& to_obj) const
+		glm::vec3 compute_force(const vk_game_object& from_obj, const vk_game_object& to_obj) const
 		{
-			const auto offset = from_obj.transform2d.translation - to_obj.transform2d.translation;
+			const auto offset = from_obj.transform.translation - to_obj.transform.translation;
 			const float distance_squared = dot(offset, offset);
 
 			// clown town - just going to return 0 if objects are too close together...
 			if (glm::abs(distance_squared) < 1e-10f)
 			{
-				return {.0f, .0f};
+				return {.0f, .0f, 0.f};
 			}
 
 			const float force =
-				strength_gravity * to_obj.rigid_body2d.mass * from_obj.rigid_body2d.mass / distance_squared;
+				strength_gravity * to_obj.rigid_body.mass * from_obj.rigid_body.mass / distance_squared;
 			return force * offset / glm::sqrt(distance_squared);
 		}
 
@@ -63,15 +63,15 @@ namespace vk_engine
 					auto& obj_b = *iter_b;
 
 					auto force = compute_force(obj_a, obj_b);
-					obj_a.rigid_body2d.velocity += dt * -force / obj_a.rigid_body2d.mass;
-					obj_b.rigid_body2d.velocity += dt * force / obj_b.rigid_body2d.mass;
+					obj_a.rigid_body.velocity += dt * -force / obj_a.rigid_body.mass;
+					obj_b.rigid_body.velocity += dt * force / obj_b.rigid_body.mass;
 				}
 			}
 
 			// update each objects position based on its final velocity
 			for (auto& obj : physics_objs)
 			{
-				obj.transform2d.translation += dt * obj.rigid_body2d.velocity;
+				obj.transform.translation += dt * obj.rigid_body.velocity;
 			}
 		}
 	};
@@ -87,7 +87,7 @@ namespace vk_engine
 			// For each field line we calculate the net gravitation force for that point in space
 			for (auto& vf : vector_field)
 			{
-				glm::vec2 direction{};
+				glm::vec3 direction{};
 				for (auto& obj : physics_objs)
 				{
 					direction += physics_system.compute_force(obj, vf);
@@ -96,26 +96,25 @@ namespace vk_engine
 				// This scales the length of the field line based on the log of the length
 				// values were chosen just through trial and error based on what i liked the look
 				// of and then the field line is rotated to point in the direction of the field
-				vf.transform2d.scale.x =
-					0.005f + 0.045f * glm::clamp(glm::log(length(direction) + 1) / 3.f, 0.f, 1.f);
-				vf.transform2d.rotation = atan2(direction.y, direction.x);
+				vf.transform.scale.x = 0.005f + 0.045f * glm::clamp(glm::log(length(direction) + 1) / 3.f, 0.f, .5f);
+				vf.transform.rotation.z = atan2(direction.y, direction.x) * 180.f / glm::pi<float>();
 			}
 		}
 	};
 
-	std::unique_ptr<vk_model> create_square_model(vk_device& device, const glm::vec2 offset)
+	std::unique_ptr<vk_model> create_square_model(vk_device& device, const glm::vec3 offset)
 	{
 		std::vector<vk_model::vertex> vertices = {
-			{{-0.5f, -0.5f}},
-			{{0.5f, 0.5f}},
-			{{-0.5f, 0.5f}},
-			{{-0.5f, -0.5f}},
-			{{0.5f, -0.5f}},
-			{{0.5f, 0.5f}},
+			{{-0.5f, -0.5f, .0f}},
+			{{0.5f, 0.5f, .0f}},
+			{{-0.5f, 0.5f, .0f}},
+			{{-0.5f, -0.5f, .0f}},
+			{{0.5f, -0.5f, .0f}},
+			{{0.5f, 0.5f, .0f}},
 		};
-		for (auto& v : vertices)
+		for (auto& [position, color] : vertices)
 		{
-			v.position += offset;
+			position += offset;
 		}
 		return std::make_unique<vk_model>(device, vertices);
 	}
@@ -126,9 +125,9 @@ namespace vk_engine
 		for (int i = 0; i < num_sides; i++)
 		{
 			const float angle = i * glm::two_pi<float>() / num_sides;
-			unique_vertices.push_back({{glm::cos(angle), glm::sin(angle)}});
+			unique_vertices.push_back({{glm::cos(angle), glm::sin(angle), .0f}});
 		}
-		unique_vertices.push_back({}); // adds center vertex at 0, 0
+		unique_vertices.push_back({}); // adds center vertex at 0, 0, 0
 
 		std::vector<vk_model::vertex> vertices{};
 		for (int i = 0; i < num_sides; i++)
@@ -149,23 +148,23 @@ namespace vk_engine
 		// create some models
 		std::shared_ptr<vk_model> square_model = create_square_model(
 			device,
-			{.5f, .0f}); // offset model by .5 so rotation occurs at edge rather than center of square
+			{.5f, .0f, 0.f}); // offset model by .5 so rotation occurs at edge rather than center of square
 		std::shared_ptr<vk_model> circle_model = create_circle_model(device, 64);
 
 		// create physics objects
 		std::vector<vk_game_object> physics_objects{};
 		auto red = vk_game_object::create_game_object();
-		red.transform2d.scale = glm::vec2{.05f};
-		red.transform2d.translation = {.5f, .5f};
+		red.transform.scale = glm::vec3{.05f};
+		red.transform.translation = {.5f, .5f, .0f};
 		red.color = {1.f, 0.f, 0.f};
-		red.rigid_body2d.velocity = {-.5f, .0f};
+		red.rigid_body.velocity = {-.5f, .0f, .0f};
 		red.model = circle_model;
 		physics_objects.push_back(std::move(red));
 		auto blue = vk_game_object::create_game_object();
-		blue.transform2d.scale = glm::vec2{.05f};
-		blue.transform2d.translation = {-.45f, -.25f};
+		blue.transform.scale = glm::vec3{.05f};
+		blue.transform.translation = {-.45f, -.25f, .0f};
 		blue.color = {0.f, 0.f, 1.f};
-		blue.rigid_body2d.velocity = {.5f, .0f};
+		blue.rigid_body.velocity = {.5f, .0f, .0f};
 		blue.model = circle_model;
 		physics_objects.push_back(std::move(blue));
 
@@ -177,10 +176,11 @@ namespace vk_engine
 			for (int j = 0; j < grid_count; j++)
 			{
 				auto vf = vk_game_object::create_game_object();
-				vf.transform2d.scale = glm::vec2(0.005f);
-				vf.transform2d.translation = {
+				vf.transform.scale = glm::vec3(0.005f);
+				vf.transform.translation = {
 					-1.0f + (i + 0.5f) * 2.0f / grid_count,
-					-1.0f + (j + 0.5f) * 2.0f / grid_count
+					-1.0f + (j + 0.5f) * 2.0f / grid_count,
+					.0f
 				};
 				vf.color = glm::vec3(1.0f);
 				vf.model = square_model;
@@ -218,18 +218,18 @@ namespace vk_engine
 	void gravity_vec_field_app::load_game_objects()
 	{
 		std::vector<vk_model::vertex> vertices{
-			{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-			{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-			{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
+			{{0.0f, -0.5f, .0f}, {1.0f, 0.0f, 0.0f}},
+			{{0.5f, 0.5f, .0f}, {0.0f, 1.0f, 0.0f}},
+			{{-0.5f, 0.5f, .0f}, {0.0f, 0.0f, 1.0f}}
 		};
 		const auto lve_model = std::make_shared<vk_model>(device, vertices);
 
 		auto triangle = vk_game_object::create_game_object();
 		triangle.model = lve_model;
 		triangle.color = {.1f, .8f, .1f};
-		triangle.transform2d.translation.x = .2f;
-		triangle.transform2d.scale = {2.f, .5f};
-		triangle.transform2d.rotation = .25f * glm::two_pi<float>();
+		triangle.transform.translation.x = .2f;
+		triangle.transform.scale = {2.f, .5f, 1.f};
+		triangle.transform.rotation.z = .25f * glm::two_pi<float>();
 
 		game_objects.push_back(std::move(triangle));
 	}
