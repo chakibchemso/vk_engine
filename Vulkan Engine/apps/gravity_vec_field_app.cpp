@@ -192,11 +192,15 @@ namespace vk_engine
 		vec2_field_system vec_field_system{};
 
 		vk_simple_render_system simple_render_system{device, renderer.get_swap_chain_render_pass()};
+		vk_camera camera{};
 
 		while (!window.should_close())
 		{
 			glfwPollEvents();
 
+			const float aspect = renderer.get_aspect_ratio();
+			camera.set_orthographic_projection(-aspect, aspect, -1.f, 1.f, -1.f, 1.f);
+			
 			if (auto command_buffer = renderer.begin_frame())
 			{
 				// update systems
@@ -205,8 +209,8 @@ namespace vk_engine
 
 				// render system
 				renderer.begin_swap_chain_render_pass(command_buffer);
-				simple_render_system.render_game_objects(command_buffer, physics_objects);
-				simple_render_system.render_game_objects(command_buffer, vector_field);
+				simple_render_system.render_game_objects(command_buffer, physics_objects, camera);
+				simple_render_system.render_game_objects(command_buffer, vector_field, camera);
 				renderer.end_swap_chain_render_pass(command_buffer);
 				renderer.end_frame();
 			}

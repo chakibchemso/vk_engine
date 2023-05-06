@@ -19,11 +19,15 @@ namespace vk_engine
 	void rotating_triangles_app::run()
 	{
 		const vk_simple_render_system simple_render_system{device, renderer.get_swap_chain_render_pass()};
+		vk_camera camera{};
 
 		while (!window.should_close())
 		{
 			glfwPollEvents();
 
+			const float aspect = renderer.get_aspect_ratio();
+			camera.set_orthographic_projection(-aspect, aspect, -1.f, 1.f, -1.f, 1.f);
+			
 			if (const auto command_buffer = renderer.begin_frame())
 			{
 				renderer.begin_swap_chain_render_pass(command_buffer);
@@ -35,7 +39,7 @@ namespace vk_engine
 					game_object.transform.rotation.z =
 						glm::mod<float>(game_object.transform.rotation.z + 0.1f * i, 360.f);
 				}
-				simple_render_system.render_game_objects(command_buffer, game_objects);
+				simple_render_system.render_game_objects(command_buffer, game_objects, camera);
 				renderer.end_swap_chain_render_pass(command_buffer);
 				renderer.end_frame();
 			}
@@ -81,7 +85,7 @@ namespace vk_engine
 		{
 			auto triangle = vk_game_object::create_game_object();
 			triangle.model = triangle_model;
-			triangle.transform.scale = glm::vec3(.5f, .5f, 1.f) + i * 0.025f;
+			triangle.transform.scale = glm::vec3(.5f, .5f, .5f) + i * 0.025f;
 			triangle.transform.rotation = glm::vec3(0.f, 0.f, glm::radians(45.f)) * glm::vec3(i);
 			triangle.color = colors[i % colors.size()];
 
