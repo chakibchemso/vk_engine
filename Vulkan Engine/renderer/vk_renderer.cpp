@@ -137,6 +137,11 @@ namespace vk_engine
 		return swapchain->get_render_pass();
 	}
 
+	float vk_renderer::get_aspect_ratio() const
+	{
+		return swapchain->extent_aspect_ratio();
+	}
+
 	void vk_renderer::create_command_buffers()
 	{
 		command_buffers.resize(vk_swapchain::MAX_FRAMES_IN_FLIGHT);

@@ -61,14 +61,15 @@ namespace vk_engine
 	}
 
 	void vk_simple_render_system::render_game_objects(const VkCommandBuffer command_buffer,
-	                                                  std::vector<vk_game_object>& game_objects) const
+	                                                  const std::vector<vk_game_object>& game_objects,
+	                                                  const vk_camera& camera) const
 	{
 		pipeline->bind(command_buffer);
 
 		for (auto& game_object : game_objects)
 		{
 			simple_push_const_data push{};
-			push.transform = game_object.transform.mat4();
+			push.transform = camera.get_projection_matrix() * game_object.transform.mat4();
 			push.color = game_object.color;
 
 			vkCmdPushConstants(

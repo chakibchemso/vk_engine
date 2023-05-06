@@ -25,6 +25,7 @@ namespace vk_engine
 		int get_frame_index() const;
 		VkCommandBuffer get_current_command_buffer() const;
 		VkRenderPass get_swap_chain_render_pass() const;
+		float get_aspect_ratio() const;
 
 	private:
 		void create_command_buffers();

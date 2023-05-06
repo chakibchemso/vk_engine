@@ -1,6 +1,7 @@
 #pragma once
 
 #include "vk_pipeline.hpp"
+#include "../engine/vk_camera.hpp"
 #include "../engine/vk_game_object.hpp"
 #include "../renderer/vk_device.hpp"
 
@@ -17,7 +18,9 @@ namespace vk_engine
 		vk_simple_render_system(const vk_simple_render_system&) = delete;
 		vk_simple_render_system& operator=(const vk_simple_render_system&) = delete;
 
-		void render_game_objects(VkCommandBuffer command_buffer, std::vector<vk_game_object>& game_objects) const;
+		void render_game_objects(VkCommandBuffer command_buffer,
+		                         const std::vector<vk_game_object>& game_objects,
+		                         const vk_camera& camera) const;
 
 	private:
 		void create_pipeline_layout();

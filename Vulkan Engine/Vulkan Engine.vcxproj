@@ -87,6 +87,7 @@
         </ClCompile>
         <ClCompile Include="apps\gravity_vec_field_app.cpp"/>
         <ClCompile Include="apps\rotating_triangles_app.cpp"/>
+        <ClCompile Include="engine\vk_camera.cpp"/>
         <ClCompile Include="engine\vk_game_object.cpp">
             <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
             <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -685,6 +686,7 @@
         <ClInclude Include="apps\application.hpp"/>
         <ClInclude Include="apps\gravity_vec_field_app.hpp"/>
         <ClInclude Include="apps\rotating_triangles_app.hpp"/>
+        <ClInclude Include="engine\vk_camera.hpp"/>
         <ClInclude Include="engine\vk_game_object.hpp"/>
         <ClInclude Include="engine\vk_model.hpp"/>
         <ClInclude Include="renderer\vk_device.hpp"/>
