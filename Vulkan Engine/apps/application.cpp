@@ -21,7 +21,8 @@ namespace vk_engine
 	{
 		const vk_simple_render_system simple_render_system{device, renderer.get_swap_chain_render_pass()};
 		vk_camera camera{};
-		
+		//camera.set_view_direction(glm::vec3{0.f}, glm::vec3{0.5f, 0.f, 1.f});
+		//camera.set_view_target(glm::vec3(-1, -2, -2), glm::vec3(0, 0, 2.5));
 
 		while (!window.should_close())
 		{
@@ -33,7 +34,6 @@ namespace vk_engine
 			
 			if (const auto command_buffer = renderer.begin_frame())
 			{
-				
 				renderer.begin_swap_chain_render_pass(command_buffer);
 				// update rotations
 				int i = 0;
@@ -105,18 +105,19 @@ namespace vk_engine
 			{{-.5f, -.5f, -0.5f}, {.1f, .8f, .1f}},
 			{{.5f, -.5f, -0.5f}, {.1f, .8f, .1f}},
 			{{.5f, .5f, -0.5f}, {.1f, .8f, .1f}},
-
 		};
+		
 		for (auto& [position, color] : vertices)
 		{
 			position += offset;
 		}
+		
 		return std::make_unique<vk_model>(device, vertices);
 	}
 
 	void application::load_game_objects()
 	{
-		std::shared_ptr<vk_model> model = create_cube_model(device, {0.f, 0.f, 0.f});
+		const std::shared_ptr<vk_model> model = create_cube_model(device, {0.f, 0.f, 0.f});
 
 		auto cube = vk_game_object::create_game_object();
 		cube.model = model;

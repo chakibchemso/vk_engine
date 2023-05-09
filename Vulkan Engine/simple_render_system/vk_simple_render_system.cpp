@@ -66,10 +66,12 @@ namespace vk_engine
 	{
 		pipeline->bind(command_buffer);
 
+		const auto projection_view = camera.get_projection() * camera.get_view();
+
 		for (auto& game_object : game_objects)
 		{
 			simple_push_const_data push{};
-			push.transform = camera.get_projection_matrix() * game_object.transform.mat4();
+			push.transform = projection_view * game_object.transform.mat4();
 			push.color = game_object.color;
 
 			vkCmdPushConstants(
