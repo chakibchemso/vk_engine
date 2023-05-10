@@ -200,7 +200,7 @@ namespace vk_engine
 
 			const float aspect = renderer.get_aspect_ratio();
 			camera.set_orthographic_projection(-aspect, aspect, -1.f, 1.f, -1.f, 1.f);
-			
+
 			if (auto command_buffer = renderer.begin_frame())
 			{
 				// update systems

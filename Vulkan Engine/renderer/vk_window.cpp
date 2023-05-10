@@ -36,6 +36,11 @@ namespace vk_engine
 		return {static_cast<uint32_t>(width), static_cast<uint32_t>(height)};
 	}
 
+	GLFWwindow* vk_window::get_glfw_window() const
+	{
+		return window;
+	}
+
 	void vk_window::create_window_surface(const VkInstance instance, VkSurfaceKHR* surface) const
 	{
 		if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS)

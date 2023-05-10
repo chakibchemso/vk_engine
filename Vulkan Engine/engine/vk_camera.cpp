@@ -1,7 +1,5 @@
 #include "vk_camera.hpp"
 
-using namespace glm;
-
 using vk_engine::vk_camera;
 
 void vk_camera::set_orthographic_projection(
@@ -9,7 +7,7 @@ void vk_camera::set_orthographic_projection(
 	const float bottom, const float top,
 	const float near, const float far)
 {
-	projection_matrix = mat4{1.0f};
+	projection_matrix = glm::mat4{1.0f};
 	projection_matrix[0][0] = 2.f / (right - left);
 	projection_matrix[1][1] = 2.f / (bottom - top);
 	projection_matrix[2][2] = 1.f / (far - near);
@@ -24,7 +22,7 @@ void vk_camera::set_perspective_projection(
 {
 	assert(glm::abs(aspect - std::numeric_limits<float>::epsilon()) > 0.0f);
 	const float tan_half_fov = tan(fov / 2.f);
-	projection_matrix = mat4{0.0f};
+	projection_matrix = glm::mat4{0.0f};
 	projection_matrix[0][0] = 1.f / (aspect * tan_half_fov);
 	projection_matrix[1][1] = 1.f / (tan_half_fov);
 	projection_matrix[2][2] = far / (far - near);
@@ -32,13 +30,13 @@ void vk_camera::set_perspective_projection(
 	projection_matrix[3][2] = -(far * near) / (far - near);
 }
 
-void vk_camera::set_view_direction(const vec3 position, const vec3 direction, const vec3 up)
+void vk_camera::set_view_direction(const glm::vec3 position, const glm::vec3 direction, const glm::vec3 up)
 {
-	const vec3 w{normalize(direction)};
-	const vec3 u{normalize(cross(w, up))};
-	const vec3 v{cross(w, u)};
+	const glm::vec3 w{normalize(direction)};
+	const glm::vec3 u{normalize(cross(w, up))};
+	const glm::vec3 v{cross(w, u)};
 
-	view_matrix = mat4{1.f};
+	view_matrix = glm::mat4{1.f};
 	view_matrix[0][0] = u.x;
 	view_matrix[1][0] = u.y;
 	view_matrix[2][0] = u.z;
@@ -53,12 +51,12 @@ void vk_camera::set_view_direction(const vec3 position, const vec3 direction, co
 	view_matrix[3][2] = -dot(w, position);
 }
 
-void vk_camera::set_view_target(const vec3 position, const vec3 target, const vec3 up)
+void vk_camera::set_view_target(const glm::vec3 position, const glm::vec3 target, const glm::vec3 up)
 {
 	set_view_direction(position, target - position, up);
 }
 
-void vk_camera::set_view_yxz(const vec3 position, const vec3 rotation)
+void vk_camera::set_view_yxz(const glm::vec3 position, const glm::vec3 rotation)
 {
 	const float c3 = cos(rotation.z);
 	const float s3 = sin(rotation.z);
@@ -66,10 +64,10 @@ void vk_camera::set_view_yxz(const vec3 position, const vec3 rotation)
 	const float s2 = sin(rotation.x);
 	const float c1 = cos(rotation.y);
 	const float s1 = sin(rotation.y);
-	const vec3 u{(c1 * c3 + s1 * s2 * s3), (c2 * s3), (c1 * s2 * s3 - c3 * s1)};
-	const vec3 v{(c3 * s1 * s2 - c1 * s3), (c2 * c3), (c1 * c3 * s2 + s1 * s3)};
-	const vec3 w{(c2 * s1), (-s2), (c1 * c2)};
-	view_matrix = mat4{1.f};
+	const glm::vec3 u{(c1 * c3 + s1 * s2 * s3), (c2 * s3), (c1 * s2 * s3 - c3 * s1)};
+	const glm::vec3 v{(c3 * s1 * s2 - c1 * s3), (c2 * c3), (c1 * c3 * s2 + s1 * s3)};
+	const glm::vec3 w{(c2 * s1), (-s2), (c1 * c2)};
+	view_matrix = glm::mat4{1.f};
 	view_matrix[0][0] = u.x;
 	view_matrix[1][0] = u.y;
 	view_matrix[2][0] = u.z;
@@ -84,12 +82,12 @@ void vk_camera::set_view_yxz(const vec3 position, const vec3 rotation)
 	view_matrix[3][2] = -dot(w, position);
 }
 
-const mat4& vk_camera::get_projection() const
+const glm::mat4& vk_camera::get_projection() const
 {
 	return projection_matrix;
 }
 
-const mat4& vk_camera::get_view() const
+const glm::mat4& vk_camera::get_view() const
 {
 	return view_matrix;
 }
