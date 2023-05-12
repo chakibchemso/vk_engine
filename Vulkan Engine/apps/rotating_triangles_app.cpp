@@ -65,7 +65,8 @@ namespace vk_engine
 			{.73, .88f, 1.f}
 		};
 
-		const auto triangle_model = std::make_shared<vk_model>(device, vertices);
+		vk_model::builder builder{vertices};
+		const auto triangle_model = std::make_shared<vk_model>(device, builder);
 
 		// auto triangle = vk_game_object::create_game_object();
 		// triangle.model = triangle_model;

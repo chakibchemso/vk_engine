@@ -20,7 +20,13 @@ namespace vk_engine
 			static std::vector<VkVertexInputAttributeDescription> get_attribute_descriptions();
 		};
 
-		vk_model(vk_device& device, const std::vector<vertex>& vertices);
+		struct builder
+		{
+			std::vector<vertex> vertices{};
+			std::vector<uint32_t> indices{};
+		};
+
+		vk_model(vk_device& device, const builder& builder);
 		~vk_model();
 
 		vk_model(const vk_model&) = delete;
@@ -31,10 +37,17 @@ namespace vk_engine
 
 	private:
 		void create_vertex_buffers(const std::vector<vertex>& vertices);
+		void create_index_buffers(const std::vector<uint32_t>& indices);
 
 		vk_device& device;
+
 		VkBuffer vertex_buffer{};
 		VkDeviceMemory vertex_buffer_memory{};
 		uint32_t vertex_count{};
+
+		VkBuffer index_buffer{};
+		VkDeviceMemory index_buffer_memory{};
+		uint32_t index_count{};
+		bool has_index_buffer{false};
 	};
 }

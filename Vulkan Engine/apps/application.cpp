@@ -1,13 +1,14 @@
 #include "application.hpp"
+
+#include <chrono>
+#include <future>
 #include <glm/glm.hpp>
+
 #include "input_controller.hpp"
 #include "../engine/vk_camera.hpp"
 #include "../engine/vk_model.hpp"
 #include "../renderer/vk_device.hpp"
 #include "../simple_render_system/vk_simple_render_system.hpp"
-
-#include <chrono>
-#include <future>
 
 namespace vk_engine
 {
@@ -74,68 +75,63 @@ namespace vk_engine
 	// temporary helper function, creates a 1x1x1 cube centered at offset
 	std::unique_ptr<vk_model> create_cube_model(vk_device& device, const glm::vec3 offset)
 	{
-		std::vector<vk_model::vertex> vertices{
+		vk_model::builder model_builder{};
 
+		model_builder.vertices = {
 			// left face (white)
 			{{-.5f, -.5f, -.5f}, {.9f, .9f, .9f}},
 			{{-.5f, .5f, .5f}, {.9f, .9f, .9f}},
 			{{-.5f, -.5f, .5f}, {.9f, .9f, .9f}},
-			{{-.5f, -.5f, -.5f}, {.9f, .9f, .9f}},
 			{{-.5f, .5f, -.5f}, {.9f, .9f, .9f}},
-			{{-.5f, .5f, .5f}, {.9f, .9f, .9f}},
 
 			// right face (yellow)
 			{{.5f, -.5f, -.5f}, {.8f, .8f, .1f}},
 			{{.5f, .5f, .5f}, {.8f, .8f, .1f}},
 			{{.5f, -.5f, .5f}, {.8f, .8f, .1f}},
-			{{.5f, -.5f, -.5f}, {.8f, .8f, .1f}},
 			{{.5f, .5f, -.5f}, {.8f, .8f, .1f}},
-			{{.5f, .5f, .5f}, {.8f, .8f, .1f}},
 
 			// top face (orange, remember y axis points down)
 			{{-.5f, -.5f, -.5f}, {.9f, .6f, .1f}},
 			{{.5f, -.5f, .5f}, {.9f, .6f, .1f}},
 			{{-.5f, -.5f, .5f}, {.9f, .6f, .1f}},
-			{{-.5f, -.5f, -.5f}, {.9f, .6f, .1f}},
 			{{.5f, -.5f, -.5f}, {.9f, .6f, .1f}},
-			{{.5f, -.5f, .5f}, {.9f, .6f, .1f}},
 
 			// bottom face (red)
 			{{-.5f, .5f, -.5f}, {.8f, .1f, .1f}},
 			{{.5f, .5f, .5f}, {.8f, .1f, .1f}},
 			{{-.5f, .5f, .5f}, {.8f, .1f, .1f}},
-			{{-.5f, .5f, -.5f}, {.8f, .1f, .1f}},
 			{{.5f, .5f, -.5f}, {.8f, .1f, .1f}},
-			{{.5f, .5f, .5f}, {.8f, .1f, .1f}},
 
 			// nose face (blue)
 			{{-.5f, -.5f, 0.5f}, {.1f, .1f, .8f}},
 			{{.5f, .5f, 0.5f}, {.1f, .1f, .8f}},
 			{{-.5f, .5f, 0.5f}, {.1f, .1f, .8f}},
-			{{-.5f, -.5f, 0.5f}, {.1f, .1f, .8f}},
 			{{.5f, -.5f, 0.5f}, {.1f, .1f, .8f}},
-			{{.5f, .5f, 0.5f}, {.1f, .1f, .8f}},
 
 			// tail face (green)
 			{{-.5f, -.5f, -0.5f}, {.1f, .8f, .1f}},
 			{{.5f, .5f, -0.5f}, {.1f, .8f, .1f}},
 			{{-.5f, .5f, -0.5f}, {.1f, .8f, .1f}},
-			{{-.5f, -.5f, -0.5f}, {.1f, .8f, .1f}},
 			{{.5f, -.5f, -0.5f}, {.1f, .8f, .1f}},
-			{{.5f, .5f, -0.5f}, {.1f, .8f, .1f}},
 		};
 
-		for (auto& [position, color] : vertices)
+		model_builder.indices = {
+			0, 1, 2, 0, 3, 1, 4, 5, 6, 4, 7, 5, 8, 9, 10, 8, 11, 9, 12, 13, 14, 12, 15, 13, 16, 17, 18, 16, 19, 17, 20,
+			21, 22, 20, 23, 21
+		};
+
+		for (auto& [position, color] : model_builder.vertices)
 		{
 			position += offset;
 		}
 
-		return std::make_unique<vk_model>(device, vertices);
+		//return std::make_unique<vk_model>(device, model_builder);
+		return std::unique_ptr<vk_model>{new vk_model(device, model_builder)};
 	}
 
 	void application::load_game_objects()
 	{
-		const std::shared_ptr<vk_model> model = create_cube_model(device, {0.f, 0.f, 0.f});
+		const std::shared_ptr model = create_cube_model(device, {0.f, 0.f, 0.f});
 
 		auto cube = vk_game_object::create_game_object();
 		cube.model = model;

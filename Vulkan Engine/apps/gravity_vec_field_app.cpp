@@ -104,7 +104,8 @@ namespace vk_engine
 
 	std::unique_ptr<vk_model> create_square_model(vk_device& device, const glm::vec3 offset)
 	{
-		std::vector<vk_model::vertex> vertices = {
+		vk_model::builder builder{};
+		builder.vertices = {
 			{{-0.5f, -0.5f, .0f}},
 			{{0.5f, 0.5f, .0f}},
 			{{-0.5f, 0.5f, .0f}},
@@ -112,11 +113,11 @@ namespace vk_engine
 			{{0.5f, -0.5f, .0f}},
 			{{0.5f, 0.5f, .0f}},
 		};
-		for (auto& [position, color] : vertices)
+		for (auto& [position, color] : builder.vertices)
 		{
 			position += offset;
 		}
-		return std::make_unique<vk_model>(device, vertices);
+		return std::make_unique<vk_model>(device, builder);
 	}
 
 	std::unique_ptr<vk_model> create_circle_model(vk_device& device, const unsigned int num_sides)
@@ -136,7 +137,8 @@ namespace vk_engine
 			vertices.push_back(unique_vertices[(i + 1) % num_sides]);
 			vertices.push_back(unique_vertices[num_sides]);
 		}
-		return std::make_unique<vk_model>(device, vertices);
+		vk_model::builder builder{vertices};
+		return std::make_unique<vk_model>(device, builder);
 	}
 
 	gravity_vec_field_app::gravity_vec_field_app() { load_game_objects(); }
@@ -226,7 +228,8 @@ namespace vk_engine
 			{{0.5f, 0.5f, .0f}, {0.0f, 1.0f, 0.0f}},
 			{{-0.5f, 0.5f, .0f}, {0.0f, 0.0f, 1.0f}}
 		};
-		const auto lve_model = std::make_shared<vk_model>(device, vertices);
+		vk_model::builder builder{vertices};
+		const auto lve_model = std::make_shared<vk_model>(device, builder);
 
 		auto triangle = vk_game_object::create_game_object();
 		triangle.model = lve_model;
