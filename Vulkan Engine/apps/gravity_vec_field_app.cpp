@@ -113,7 +113,7 @@ namespace vk_engine
 			{{0.5f, -0.5f, .0f}},
 			{{0.5f, 0.5f, .0f}},
 		};
-		for (auto& [position, color] : builder.vertices)
+		for (auto& [position, color, normal, uv] : builder.vertices)
 		{
 			position += offset;
 		}

@@ -1,6 +1,30 @@
+#define TINYOBJLOADER_IMPLEMENTATION
+
 #include "vk_model.hpp"
+#include "../engine/vk_utils.hpp"
+
+#include <cassert>
+#include <cstring>
+#include <iostream>
+#include <unordered_map>
+#include <glm/gtx/hash.hpp>
+#include <TinyObjLoader/tiny_obj_loader.hpp>
 
 using vk_engine::vk_model;
+
+namespace std
+{
+	template <>
+	struct hash<vk_model::vertex>
+	{
+		size_t operator()(const vk_model::vertex& vertex) const noexcept
+		{
+			size_t seed{0};
+			vk_engine::hash_combine(seed, vertex.position, vertex.color, vertex.normal, vertex.uv);
+			return seed;
+		}
+	};
+}
 
 std::vector<VkVertexInputBindingDescription> vk_model::vertex::get_binding_descriptions()
 {
@@ -28,6 +52,76 @@ std::vector<VkVertexInputAttributeDescription> vk_model::vertex::get_attribute_d
 	return attribute_descriptions;
 }
 
+bool vk_model::vertex::operator==(const vertex& other) const
+{
+	return position == other.position && color == other.color && normal == other.normal && uv == other.uv;
+}
+
+void vk_model::builder::load_model(const std::string& file_path)
+{
+	tinyobj::attrib_t attrib;
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
+	std::string warning, error;
+
+	if (!LoadObj(&attrib, &shapes, &materials, &warning, &error, file_path.c_str()))
+		throw std::runtime_error(error + warning);
+
+	vertices.clear();
+	indices.clear();
+
+	std::unordered_map<vertex, uint32_t> unique_vertices{};
+
+	for (const auto& [name, mesh, lines, points] : shapes)
+		for (const auto& [vertex_index, normal_index, texcoord_index] : mesh.indices)
+		{
+			vertex vertex{};
+
+			if (vertex_index >= 0)
+			{
+				vertex.position = {
+					attrib.vertices[3 * vertex_index + 0],
+					attrib.vertices[3 * vertex_index + 1],
+					attrib.vertices[3 * vertex_index + 2],
+				};
+
+				if (auto color_index = 3 * vertex_index + 2; color_index < static_cast<int>(attrib.colors.size()))
+					vertex.color = {
+						attrib.colors[color_index - 2],
+						attrib.colors[color_index - 1],
+						attrib.colors[color_index - 0],
+					};
+				else
+					vertex.color = glm::vec3{1.f};
+			}
+
+			if (normal_index >= 0)
+			{
+				vertex.normal = {
+					attrib.normals[3 * normal_index + 0],
+					attrib.normals[3 * normal_index + 1],
+					attrib.normals[3 * normal_index + 2],
+				};
+			}
+
+			if (texcoord_index >= 0)
+			{
+				vertex.uv = {
+					attrib.texcoords[2 * texcoord_index + 0],
+					attrib.texcoords[2 * texcoord_index + 1],
+				};
+			}
+
+			if (unique_vertices.count(vertex) == 0)
+			{
+				unique_vertices[vertex] = static_cast<uint32_t>(vertices.size());
+				vertices.push_back(vertex);
+			}
+
+			indices.push_back(unique_vertices[vertex]);
+		}
+}
+
 vk_model::vk_model(vk_device& device, const builder& builder): device(device)
 {
 	create_vertex_buffers(builder.vertices);
@@ -43,6 +137,20 @@ vk_model::~vk_model()
 		vkDestroyBuffer(device.device(), index_buffer, nullptr);
 		vkFreeMemory(device.device(), index_buffer_memory, nullptr);
 	}
+}
+
+std::unique_ptr<vk_model> vk_model::create_model_from_file(vk_device& device, const std::string& file_path)
+{
+	builder builder{};
+	builder.load_model(file_path);
+
+	std::cout << "loaded model: " << std::endl
+		<< '{' << std::endl
+		<< "file path: " << file_path << std::endl
+		<< "vertex count: " << builder.vertices.size() << std::endl
+		<< '}' << std::endl;
+
+	return std::make_unique<vk_model>(device, builder);
 }
 
 void vk_model::bind(const VkCommandBuffer command_buffer) const
