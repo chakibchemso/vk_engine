@@ -13,6 +13,7 @@ namespace vk_engine
 		glm::vec3 rotation;
 
 		glm::mat4 mat4() const;
+		glm::mat3 normal_matrix() const;
 	};
 
 	struct rigid_body_component

@@ -14,7 +14,7 @@ namespace vk_engine
 	struct simple_push_const_data
 	{
 		glm::mat4 transform{1.f};
-		alignas(16) glm::vec3 color;
+		glm::mat4 normal_matrix{1.f};
 	};
 
 	vk_simple_render_system::vk_simple_render_system(vk_device& device, const VkRenderPass render_pass) : device{device}
@@ -72,8 +72,8 @@ namespace vk_engine
 		{
 			simple_push_const_data push{};
 			push.transform = projection_view * game_object.transform.mat4();
-			push.color = game_object.color;
-
+			push.normal_matrix = game_object.transform.normal_matrix();
+			
 			vkCmdPushConstants(
 				command_buffer,
 				pipeline_layout,

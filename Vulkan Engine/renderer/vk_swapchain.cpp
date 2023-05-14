@@ -429,11 +429,12 @@ namespace vk_engine
 	VkPresentModeKHR vk_swapchain::choose_swap_present_mode(
 		const std::vector<VkPresentModeKHR>& available_present_modes)
 	{
+		std::string present_mode;
 		for (const auto& available_present_mode : available_present_modes)
 		{
 			if (available_present_mode == VK_PRESENT_MODE_MAILBOX_KHR)
 			{
-				std::cout << "Present mode: Mailbox" << std::endl;
+				present_mode = "Mailbox";
 				return available_present_mode;
 			}
 		}
@@ -445,7 +446,10 @@ namespace vk_engine
 		//   }
 		// }
 
-		std::cout << "Present mode: V-Sync" << std::endl;
+		present_mode = "V-Sync";
+		std::cout
+			<< "[Swap Chain]" << std::endl
+			<< "	Present mode: " << present_mode << std::endl;
 		return VK_PRESENT_MODE_FIFO_KHR;
 	}
 

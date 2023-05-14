@@ -189,8 +189,8 @@ namespace vk_engine
 				throw std::runtime_error("Swap chain image or depth format has changed!");
 		}
 
-		std::cout << "window size: (h: " << extent.height << ", w: " << extent.width << ')' << std::endl;
-
-		//TODO
+		std::cout
+			<< "[RENDERER]" << std::endl
+			<< "	window size: (h: " << extent.height << ", w: " << extent.width << ')' << std::endl;
 	}
 }

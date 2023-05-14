@@ -37,18 +37,13 @@ std::vector<VkVertexInputBindingDescription> vk_model::vertex::get_binding_descr
 
 std::vector<VkVertexInputAttributeDescription> vk_model::vertex::get_attribute_descriptions()
 {
-	std::vector<VkVertexInputAttributeDescription> attribute_descriptions(2);
+	std::vector<VkVertexInputAttributeDescription> attribute_descriptions{};
 
-	attribute_descriptions[0].binding = 0;
-	attribute_descriptions[0].location = 0;
-	attribute_descriptions[0].format = VK_FORMAT_R32G32B32_SFLOAT;
-	attribute_descriptions[0].offset = offsetof(vertex, position);
-
-	attribute_descriptions[1].binding = 0;
-	attribute_descriptions[1].location = 1;
-	attribute_descriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
-	attribute_descriptions[1].offset = offsetof(vertex, color);
-
+	attribute_descriptions.push_back({0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(vertex, position)});
+	attribute_descriptions.push_back({1, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(vertex, color)});
+	attribute_descriptions.push_back({2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(vertex, normal)});
+	attribute_descriptions.push_back({3, 0, VK_FORMAT_R32G32_SFLOAT, offsetof(vertex, uv)});
+	
 	return attribute_descriptions;
 }
 
@@ -85,14 +80,11 @@ void vk_model::builder::load_model(const std::string& file_path)
 					attrib.vertices[3 * vertex_index + 2],
 				};
 
-				if (auto color_index = 3 * vertex_index + 2; color_index < static_cast<int>(attrib.colors.size()))
-					vertex.color = {
-						attrib.colors[color_index - 2],
-						attrib.colors[color_index - 1],
-						attrib.colors[color_index - 0],
-					};
-				else
-					vertex.color = glm::vec3{1.f};
+				vertex.color = {
+					attrib.colors[3 * vertex_index + 0],
+					attrib.colors[3 * vertex_index + 1],
+					attrib.colors[3 * vertex_index + 2],
+				};
 			}
 
 			if (normal_index >= 0)
@@ -144,11 +136,12 @@ std::unique_ptr<vk_model> vk_model::create_model_from_file(vk_device& device, co
 	builder builder{};
 	builder.load_model(file_path);
 
-	std::cout << "loaded model: " << std::endl
-		<< '{' << std::endl
-		<< "file path: " << file_path << std::endl
-		<< "vertex count: " << builder.vertices.size() << std::endl
-		<< '}' << std::endl;
+	std::cout
+		<< "[Model Loader]" << std::endl
+		<< "	loaded model: " << std::endl
+		<< "	file path: " << file_path << std::endl
+		<< "	vertex count: " << builder.vertices.size() << std::endl
+		<< "	index count: " << builder.indices.size() << std::endl;
 
 	return std::make_unique<vk_model>(device, builder);
 }

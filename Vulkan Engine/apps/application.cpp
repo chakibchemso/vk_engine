@@ -53,10 +53,8 @@ namespace vk_engine
 				renderer.begin_swap_chain_render_pass(command_buffer);
 
 				// update rotations
-				auto i = 0;
 				for (auto& game_object : game_objects)
 				{
-					i++;
 					game_object.transform.rotation.y = glm::mod(game_object.transform.rotation.y + 0.1f, 360.f);
 					game_object.transform.rotation.x = glm::mod(game_object.transform.rotation.x + 0.1f, 360.f);
 					game_object.transform.rotation.z = glm::mod(game_object.transform.rotation.z + 0.1f, 360.f);

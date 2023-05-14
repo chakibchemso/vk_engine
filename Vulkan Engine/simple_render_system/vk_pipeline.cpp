@@ -136,8 +136,11 @@ namespace vk_engine
 		const auto vert_code = read_file(vert_shader_path);
 		const auto frag_code = read_file(frag_shader_path);
 
-		std::cout << "Vertex shader code size: " << vert_code.size() << std::endl;
-		std::cout << "Fragment shader code size: " << frag_code.size() << std::endl;
+		std::cout
+			<< "[Simple Render System]" << std::endl
+			<< "	Creating pipeline with:" << std::endl
+			<< "	Vertex shader size: " << vert_code.size() << std::endl
+			<< "	Fragment shader size: " << frag_code.size() << std::endl;
 
 		create_shader_module(vert_code, &vert_shader_module);
 		create_shader_module(frag_code, &frag_shader_module);
