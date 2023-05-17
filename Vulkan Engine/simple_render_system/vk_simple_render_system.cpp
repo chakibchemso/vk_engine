@@ -25,7 +25,7 @@ namespace vk_engine
 
 	vk_simple_render_system::~vk_simple_render_system()
 	{
-		vkDestroyPipelineLayout(device.device(), pipeline_layout, nullptr);
+		vkDestroyPipelineLayout(device.get_device(), pipeline_layout, nullptr);
 	}
 
 	void vk_simple_render_system::create_pipeline_layout()
@@ -41,7 +41,7 @@ namespace vk_engine
 		pipeline_layout_info.pSetLayouts = nullptr;
 		pipeline_layout_info.pushConstantRangeCount = 1;
 		pipeline_layout_info.pPushConstantRanges = &push_constant_range;
-		if (vkCreatePipelineLayout(device.device(), &pipeline_layout_info, nullptr, &pipeline_layout) != VK_SUCCESS)
+		if (vkCreatePipelineLayout(device.get_device(), &pipeline_layout_info, nullptr, &pipeline_layout) != VK_SUCCESS)
 			throw std::runtime_error("Failed to create pipeline layout!");
 	}
 

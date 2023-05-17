@@ -19,9 +19,9 @@ namespace vk_engine
 
 	vk_pipeline::~vk_pipeline()
 	{
-		vkDestroyShaderModule(device.device(), vert_shader_module, nullptr);
-		vkDestroyShaderModule(device.device(), frag_shader_module, nullptr);
-		vkDestroyPipeline(device.device(), graphics_pipeline, nullptr);
+		vkDestroyShaderModule(device.get_device(), vert_shader_module, nullptr);
+		vkDestroyShaderModule(device.get_device(), frag_shader_module, nullptr);
+		vkDestroyPipeline(device.get_device(), graphics_pipeline, nullptr);
 	}
 
 	void vk_pipeline::bind(const VkCommandBuffer command_buffer)
@@ -192,7 +192,8 @@ namespace vk_engine
 		pipeline_info.basePipelineIndex = -1;
 		pipeline_info.basePipelineHandle = VK_NULL_HANDLE;
 
-		if (vkCreateGraphicsPipelines(device.device(), VK_NULL_HANDLE, 1, &pipeline_info, nullptr, &graphics_pipeline)
+		if (vkCreateGraphicsPipelines(device.get_device(), VK_NULL_HANDLE, 1, &pipeline_info, nullptr,
+		                              &graphics_pipeline)
 			!= VK_SUCCESS)
 			throw std::runtime_error("Failed to create graphics pipeline!");
 	}
@@ -204,7 +205,7 @@ namespace vk_engine
 		create_info.codeSize = code.size();
 		create_info.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
-		if (vkCreateShaderModule(device.device(), &create_info, nullptr, shader_module) != VK_SUCCESS)
+		if (vkCreateShaderModule(device.get_device(), &create_info, nullptr, shader_module) != VK_SUCCESS)
 			throw std::runtime_error("Failed to create shader module!");
 	}
 }

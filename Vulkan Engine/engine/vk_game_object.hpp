@@ -35,7 +35,7 @@ namespace vk_engine
 		static vk_game_object create_game_object();
 
 		std::shared_ptr<vk_model> model{};
-		glm::vec3 color{};
+		glm::vec3 color{}; //TODO ?
 		transform_component transform{};
 		rigid_body_component rigid_body{};
 

@@ -41,15 +41,15 @@ namespace vk_engine
 		vk_device(vk_device&&) = delete;
 		vk_device& operator=(vk_device&&) = delete;
 
-		VkCommandPool get_command_pool() const { return command_pool_; }
-		VkDevice device() const { return device_; }
-		VkSurfaceKHR surface() const { return surface_; }
-		VkQueue graphics_queue() const { return graphics_queue_; }
-		VkQueue present_queue() const { return present_queue_; }
+		VkCommandPool get_command_pool() const { return command_pool; }
+		VkDevice get_device() const { return device; }
+		VkSurfaceKHR get_surface() const { return surface; }
+		VkQueue get_graphics_queue() const { return graphics_queue; }
+		VkQueue get_present_queue() const { return present_queue; }
 
-		swap_chain_support_details get_swap_chain_support() const { return query_swap_chain_support(physical_device_); }
+		swap_chain_support_details get_swap_chain_support() const { return query_swap_chain_support(physical_device); }
 		uint32_t find_memory_type(uint32_t type_filter, VkMemoryPropertyFlags prop_flags) const;
-		queue_family_indices find_physical_queue_families() const { return find_queue_families(physical_device_); }
+		queue_family_indices find_physical_queue_families() const { return find_queue_families(physical_device); }
 		VkFormat find_supported_format(
 			const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features) const;
 
@@ -92,18 +92,18 @@ namespace vk_engine
 		bool check_device_extension_support(VkPhysicalDevice device) const;
 		swap_chain_support_details query_swap_chain_support(VkPhysicalDevice device) const;
 
-		VkInstance instance_{};
-		VkDebugUtilsMessengerEXT debug_messenger_{};
-		VkPhysicalDevice physical_device_ = VK_NULL_HANDLE;
-		vk_window& window_;
-		VkCommandPool command_pool_{};
+		VkInstance instance{};
+		VkDebugUtilsMessengerEXT debug_messenger{};
+		VkPhysicalDevice physical_device = VK_NULL_HANDLE;
+		vk_window& window;
+		VkCommandPool command_pool{};
 
-		VkDevice device_{};
-		VkSurfaceKHR surface_{};
-		VkQueue graphics_queue_{};
-		VkQueue present_queue_{};
+		VkDevice device{};
+		VkSurfaceKHR surface{};
+		VkQueue graphics_queue{};
+		VkQueue present_queue{};
 
-		const std::vector<const char*> validation_layers_ = {"VK_LAYER_KHRONOS_validation"};
-		const std::vector<const char*> device_extensions_ = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+		const std::vector<const char*> validation_layers = {"VK_LAYER_KHRONOS_validation"};
+		const std::vector<const char*> device_extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 	};
 } // namespace vk

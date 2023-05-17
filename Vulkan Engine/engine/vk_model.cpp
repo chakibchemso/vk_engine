@@ -122,12 +122,12 @@ vk_model::vk_model(vk_device& device, const builder& builder): device(device)
 
 vk_model::~vk_model()
 {
-	vkDestroyBuffer(device.device(), vertex_buffer, nullptr);
-	vkFreeMemory(device.device(), vertex_buffer_memory, nullptr);
+	vkDestroyBuffer(device.get_device(), vertex_buffer, nullptr);
+	vkFreeMemory(device.get_device(), vertex_buffer_memory, nullptr);
 	if (has_index_buffer)
 	{
-		vkDestroyBuffer(device.device(), index_buffer, nullptr);
-		vkFreeMemory(device.device(), index_buffer_memory, nullptr);
+		vkDestroyBuffer(device.get_device(), index_buffer, nullptr);
+		vkFreeMemory(device.get_device(), index_buffer_memory, nullptr);
 	}
 }
 
@@ -180,9 +180,9 @@ void vk_model::create_vertex_buffers(const std::vector<vertex>& vertices)
 		staging_buffer_memory);
 
 	void* data;
-	vkMapMemory(device.device(), staging_buffer_memory, 0, buffer_size, 0, &data);
+	vkMapMemory(device.get_device(), staging_buffer_memory, 0, buffer_size, 0, &data);
 	memcpy(data, vertices.data(), buffer_size);
-	vkUnmapMemory(device.device(), staging_buffer_memory);
+	vkUnmapMemory(device.get_device(), staging_buffer_memory);
 
 	device.create_buffer(
 		buffer_size,
@@ -193,8 +193,8 @@ void vk_model::create_vertex_buffers(const std::vector<vertex>& vertices)
 
 	device.copy_buffer(staging_buffer, vertex_buffer, buffer_size);
 
-	vkDestroyBuffer(device.device(), staging_buffer, nullptr);
-	vkFreeMemory(device.device(), staging_buffer_memory, nullptr);
+	vkDestroyBuffer(device.get_device(), staging_buffer, nullptr);
+	vkFreeMemory(device.get_device(), staging_buffer_memory, nullptr);
 }
 
 void vk_model::create_index_buffers(const std::vector<uint32_t>& indices)
@@ -217,9 +217,9 @@ void vk_model::create_index_buffers(const std::vector<uint32_t>& indices)
 		staging_buffer_memory);
 
 	void* data;
-	vkMapMemory(device.device(), staging_buffer_memory, 0, buffer_size, 0, &data);
+	vkMapMemory(device.get_device(), staging_buffer_memory, 0, buffer_size, 0, &data);
 	memcpy(data, indices.data(), buffer_size);
-	vkUnmapMemory(device.device(), staging_buffer_memory);
+	vkUnmapMemory(device.get_device(), staging_buffer_memory);
 
 	device.create_buffer(
 		buffer_size,
@@ -230,6 +230,6 @@ void vk_model::create_index_buffers(const std::vector<uint32_t>& indices)
 
 	device.copy_buffer(staging_buffer, index_buffer, buffer_size);
 
-	vkDestroyBuffer(device.device(), staging_buffer, nullptr);
-	vkFreeMemory(device.device(), staging_buffer_memory, nullptr);
+	vkDestroyBuffer(device.get_device(), staging_buffer, nullptr);
+	vkFreeMemory(device.get_device(), staging_buffer_memory, nullptr);
 }

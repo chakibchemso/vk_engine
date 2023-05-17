@@ -152,14 +152,14 @@ namespace vk_engine
 		allocate_info.commandPool = device.get_command_pool();
 		allocate_info.commandBufferCount = static_cast<uint32_t>(command_buffers.size());
 
-		if (vkAllocateCommandBuffers(device.device(), &allocate_info, command_buffers.data()) != VK_SUCCESS)
+		if (vkAllocateCommandBuffers(device.get_device(), &allocate_info, command_buffers.data()) != VK_SUCCESS)
 			throw std::runtime_error("Failed to allocate command buffers!");
 	}
 
 	void vk_renderer::free_command_buffers()
 	{
 		vkFreeCommandBuffers(
-			device.device(),
+			device.get_device(),
 			device.get_command_pool(),
 			static_cast<float>(command_buffers.size()),
 			command_buffers.data());
@@ -176,7 +176,7 @@ namespace vk_engine
 			glfwWaitEvents();
 		}
 
-		vkDeviceWaitIdle(device.device());
+		vkDeviceWaitIdle(device.get_device());
 
 		if (swapchain == nullptr)
 			swapchain = std::make_unique<vk_swapchain>(device, extent);

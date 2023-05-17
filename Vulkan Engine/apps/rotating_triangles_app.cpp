@@ -1,10 +1,11 @@
 #include "rotating_triangles_app.hpp"
+
+#include <future>
 #include <glm/glm.hpp>
+
 #include "../engine/vk_model.hpp"
 #include "../renderer/vk_device.hpp"
 #include "../simple_render_system/vk_simple_render_system.hpp"
-
-#include <future>
 
 namespace vk_engine
 {
@@ -45,15 +46,15 @@ namespace vk_engine
 			}
 		}
 
-		vkDeviceWaitIdle(device.device());
+		vkDeviceWaitIdle(device.get_device());
 	}
 
 	void rotating_triangles_app::load_game_objects()
 	{
 		std::vector<vk_model::vertex> vertices{
-			{{0.0f, -0.5f, 0.5f}, {1.0f, 0.0f, 0.0f}},
-			{{0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-			{{-0.5f, 0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
+			{{+0.00f, -1.00f, +0.50f}, {1.0f, 1.0, 1.0}},
+			{{+0.86f, +0.50f, +0.50f}, {1.0f, 1.0, 1.0}},
+			{{-0.86f, +0.50f, +0.50f}, {1.0f, 1.0, 1.0}},
 		};
 
 		// https://www.color-hex.com/color-palette/5361
@@ -65,18 +66,6 @@ namespace vk_engine
 			{.73, .88f, 1.f}
 		};
 
-		vk_model::builder builder{vertices};
-		const auto triangle_model = std::make_shared<vk_model>(device, builder);
-
-		// auto triangle = vk_game_object::create_game_object();
-		// triangle.model = triangle_model;
-		// triangle.color = {.1f, .8f, .1f};
-		// triangle.transform2d.translation.x = .2f;
-		// triangle.transform2d.scale = {1.f, .5f};
-		// triangle.transform2d.rotation = glm::radians(90.f);
-		//
-		// game_objects.push_back(std::move(triangle));
-
 		for (auto& color : colors)
 		{
 			color = pow(color, glm::vec3{2.2f});
@@ -84,11 +73,33 @@ namespace vk_engine
 
 		for (int i = 0; i < 40; i++)
 		{
+			auto color = colors[i % colors.size()];
+
+			vk_model::builder builder{
+				{
+					{
+						{+0.00f, -1.00f, +0.50f},
+						color,
+						{0.f, 0.f, 1.f}
+					},
+					{
+						{+0.86f, +0.50f, +0.50f},
+						color,
+						{0.f, 0.f, 1.f}
+					},
+					{
+						{-0.86f, +0.50f, +0.50f},
+						color,
+						{0.f, 0.f, 1.f}
+					}
+				}
+			};
+			const auto triangle_model = std::make_shared<vk_model>(device, builder);
 			auto triangle = vk_game_object::create_game_object();
 			triangle.model = triangle_model;
-			triangle.transform.scale = glm::vec3(.5f, .5f, .5f) + i * 0.025f;
+			triangle.transform.scale = glm::vec3(.25f, .25f, .25f) + i * 0.025f;
 			triangle.transform.rotation = glm::vec3(0.f, 0.f, glm::radians(45.f)) * glm::vec3(static_cast<float>(i));
-			triangle.color = colors[i % colors.size()];
+			triangle.color = colors[i % colors.size()]; //TODO shit?
 
 			game_objects.push_back(std::move(triangle));
 		}

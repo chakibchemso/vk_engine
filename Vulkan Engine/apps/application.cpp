@@ -23,7 +23,7 @@ namespace vk_engine
 	void application::run()
 	{
 		auto viewer_object = vk_game_object::create_game_object();
-		input_controller cam_controller{};
+		constexpr input_controller cam_controller{};
 		vk_camera camera{};
 		//camera.set_view_direction(glm::vec3{0.f}, glm::vec3{0.5f, 0.f, 1.f});
 		//camera.set_view_target(glm::vec3(-1, -2, -2), glm::vec3(0, 0, 2.5));
@@ -53,12 +53,12 @@ namespace vk_engine
 				renderer.begin_swap_chain_render_pass(command_buffer);
 
 				// update rotations
-				for (auto& game_object : game_objects)
+				/*for (auto& game_object : game_objects)
 				{
 					game_object.transform.rotation.y = glm::mod(game_object.transform.rotation.y + 0.1f, 360.f);
 					game_object.transform.rotation.x = glm::mod(game_object.transform.rotation.x + 0.1f, 360.f);
 					game_object.transform.rotation.z = glm::mod(game_object.transform.rotation.z + 0.1f, 360.f);
-				}
+				}*/
 
 				simple_render_system.render_game_objects(command_buffer, game_objects, camera);
 
@@ -67,7 +67,7 @@ namespace vk_engine
 			}
 		}
 
-		vkDeviceWaitIdle(device.device());
+		vkDeviceWaitIdle(device.get_device());
 	}
 
 	void application::load_game_objects()

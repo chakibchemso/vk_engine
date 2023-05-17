@@ -29,50 +29,50 @@ namespace vk_engine
 	{
 		for (const auto image_view : swap_chain_image_views)
 		{
-			vkDestroyImageView(device.device(), image_view, nullptr);
+			vkDestroyImageView(device.get_device(), image_view, nullptr);
 		}
 		swap_chain_image_views.clear();
 
 		if (swap_chain != nullptr)
 		{
-			vkDestroySwapchainKHR(device.device(), swap_chain, nullptr);
+			vkDestroySwapchainKHR(device.get_device(), swap_chain, nullptr);
 			swap_chain = nullptr;
 		}
 
 		for (int i = 0; i < depth_images.size(); i++)
 		{
-			vkDestroyImageView(device.device(), depth_image_views[i], nullptr);
-			vkDestroyImage(device.device(), depth_images[i], nullptr);
-			vkFreeMemory(device.device(), depth_image_memory[i], nullptr);
+			vkDestroyImageView(device.get_device(), depth_image_views[i], nullptr);
+			vkDestroyImage(device.get_device(), depth_images[i], nullptr);
+			vkFreeMemory(device.get_device(), depth_image_memory[i], nullptr);
 		}
 
 		for (const auto framebuffer : swap_chain_framebuffers)
 		{
-			vkDestroyFramebuffer(device.device(), framebuffer, nullptr);
+			vkDestroyFramebuffer(device.get_device(), framebuffer, nullptr);
 		}
 
-		vkDestroyRenderPass(device.device(), render_pass, nullptr);
+		vkDestroyRenderPass(device.get_device(), render_pass, nullptr);
 
 		// cleanup synchronization objects
 		for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
 		{
-			vkDestroySemaphore(device.device(), render_finished_semaphores[i], nullptr);
-			vkDestroySemaphore(device.device(), image_available_semaphores[i], nullptr);
-			vkDestroyFence(device.device(), in_flight_fences[i], nullptr);
+			vkDestroySemaphore(device.get_device(), render_finished_semaphores[i], nullptr);
+			vkDestroySemaphore(device.get_device(), image_available_semaphores[i], nullptr);
+			vkDestroyFence(device.get_device(), in_flight_fences[i], nullptr);
 		}
 	}
 
 	VkResult vk_swapchain::acquire_next_image(uint32_t* image_index) const
 	{
 		vkWaitForFences(
-			device.device(),
+			device.get_device(),
 			1,
 			&in_flight_fences[current_frame],
 			VK_TRUE,
 			std::numeric_limits<uint64_t>::max());
 
 		const VkResult result = vkAcquireNextImageKHR(
-			device.device(),
+			device.get_device(),
 			swap_chain,
 			std::numeric_limits<uint64_t>::max(),
 			image_available_semaphores[current_frame], // must be a not signaled semaphore
@@ -87,7 +87,7 @@ namespace vk_engine
 	{
 		if (images_in_flight[*image_index] != VK_NULL_HANDLE)
 		{
-			vkWaitForFences(device.device(), 1, &images_in_flight[*image_index], VK_TRUE, UINT64_MAX);
+			vkWaitForFences(device.get_device(), 1, &images_in_flight[*image_index], VK_TRUE, UINT64_MAX);
 		}
 		images_in_flight[*image_index] = in_flight_fences[current_frame];
 
@@ -107,8 +107,8 @@ namespace vk_engine
 		submit_info.signalSemaphoreCount = 1;
 		submit_info.pSignalSemaphores = signal_semaphores;
 
-		vkResetFences(device.device(), 1, &in_flight_fences[current_frame]);
-		if (vkQueueSubmit(device.graphics_queue(), 1, &submit_info, in_flight_fences[current_frame]) !=
+		vkResetFences(device.get_device(), 1, &in_flight_fences[current_frame]);
+		if (vkQueueSubmit(device.get_graphics_queue(), 1, &submit_info, in_flight_fences[current_frame]) !=
 			VK_SUCCESS)
 		{
 			throw std::runtime_error("failed to submit draw command buffer!");
@@ -126,7 +126,7 @@ namespace vk_engine
 
 		present_info.pImageIndices = image_index;
 
-		const auto result = vkQueuePresentKHR(device.present_queue(), &present_info);
+		const auto result = vkQueuePresentKHR(device.get_present_queue(), &present_info);
 
 		current_frame = (current_frame + 1) % MAX_FRAMES_IN_FLIGHT;
 
@@ -166,7 +166,7 @@ namespace vk_engine
 
 		VkSwapchainCreateInfoKHR create_info = {};
 		create_info.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-		create_info.surface = device.surface();
+		create_info.surface = device.get_surface();
 
 		create_info.minImageCount = image_count;
 		create_info.imageFormat = format;
@@ -200,7 +200,7 @@ namespace vk_engine
 
 		create_info.oldSwapchain = old_swap_chain == nullptr ? VK_NULL_HANDLE : old_swap_chain->swap_chain;
 
-		if (vkCreateSwapchainKHR(device.device(), &create_info, nullptr, &swap_chain) != VK_SUCCESS)
+		if (vkCreateSwapchainKHR(device.get_device(), &create_info, nullptr, &swap_chain) != VK_SUCCESS)
 		{
 			throw std::runtime_error("failed to create swap chain!");
 		}
@@ -209,9 +209,9 @@ namespace vk_engine
 		// allowed to create a swap chain with more. That's why we'll first query the final number of
 		// images with vkGetSwapchainImagesKHR, then resize the container and finally call it again to
 		// retrieve the handles.
-		vkGetSwapchainImagesKHR(device.device(), swap_chain, &image_count, nullptr);
+		vkGetSwapchainImagesKHR(device.get_device(), swap_chain, &image_count, nullptr);
 		swap_chain_images.resize(image_count);
-		vkGetSwapchainImagesKHR(device.device(), swap_chain, &image_count, swap_chain_images.data());
+		vkGetSwapchainImagesKHR(device.get_device(), swap_chain, &image_count, swap_chain_images.data());
 
 		swap_chain_image_format = format;
 		swap_chain_extent = extent;
@@ -233,7 +233,7 @@ namespace vk_engine
 			view_info.subresourceRange.baseArrayLayer = 0;
 			view_info.subresourceRange.layerCount = 1;
 
-			if (vkCreateImageView(device.device(), &view_info, nullptr, &swap_chain_image_views[i]) !=
+			if (vkCreateImageView(device.get_device(), &view_info, nullptr, &swap_chain_image_views[i]) !=
 				VK_SUCCESS)
 			{
 				throw std::runtime_error("failed to create texture image view!");
@@ -298,7 +298,7 @@ namespace vk_engine
 		render_pass_info.dependencyCount = 1;
 		render_pass_info.pDependencies = &dependency;
 
-		if (vkCreateRenderPass(device.device(), &render_pass_info, nullptr, &render_pass) != VK_SUCCESS)
+		if (vkCreateRenderPass(device.get_device(), &render_pass_info, nullptr, &render_pass) != VK_SUCCESS)
 		{
 			throw std::runtime_error("failed to create render pass!");
 		}
@@ -322,7 +322,7 @@ namespace vk_engine
 			framebuffer_info.layers = 1;
 
 			if (vkCreateFramebuffer(
-				device.device(),
+				device.get_device(),
 				&framebuffer_info,
 				nullptr,
 				&swap_chain_framebuffers[i]) != VK_SUCCESS)
@@ -377,7 +377,7 @@ namespace vk_engine
 			view_info.subresourceRange.baseArrayLayer = 0;
 			view_info.subresourceRange.layerCount = 1;
 
-			if (vkCreateImageView(device.device(), &view_info, nullptr, &depth_image_views[i]) != VK_SUCCESS)
+			if (vkCreateImageView(device.get_device(), &view_info, nullptr, &depth_image_views[i]) != VK_SUCCESS)
 			{
 				throw std::runtime_error("failed to create texture image view!");
 			}
@@ -400,11 +400,11 @@ namespace vk_engine
 
 		for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
 		{
-			if (vkCreateSemaphore(device.device(), &semaphore_info, nullptr, &image_available_semaphores[i]) !=
+			if (vkCreateSemaphore(device.get_device(), &semaphore_info, nullptr, &image_available_semaphores[i]) !=
 				VK_SUCCESS ||
-				vkCreateSemaphore(device.device(), &semaphore_info, nullptr, &render_finished_semaphores[i]) !=
+				vkCreateSemaphore(device.get_device(), &semaphore_info, nullptr, &render_finished_semaphores[i]) !=
 				VK_SUCCESS ||
-				vkCreateFence(device.device(), &fence_info, nullptr, &in_flight_fences[i]) != VK_SUCCESS)
+				vkCreateFence(device.get_device(), &fence_info, nullptr, &in_flight_fences[i]) != VK_SUCCESS)
 			{
 				throw std::runtime_error("failed to create synchronization objects for a frame!");
 			}
