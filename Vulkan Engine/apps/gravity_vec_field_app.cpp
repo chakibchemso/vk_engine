@@ -29,7 +29,7 @@ std::unique_ptr<vk_model> create_square_model(vk_device& device, const vec3 offs
 std::unique_ptr<vk_model> create_circle_model(vk_device& device, const unsigned int num_sides, const vec3 color)
 {
 	std::vector<vk_model::vertex> unique_vertices{};
-	for (int i = 0; i < num_sides; i++)
+	for (int i = 0; i < static_cast<int>(num_sides); i++)
 	{
 		const float angle = i * glm::two_pi<float>() / num_sides;
 		unique_vertices.push_back({
@@ -40,7 +40,7 @@ std::unique_ptr<vk_model> create_circle_model(vk_device& device, const unsigned 
 	unique_vertices.push_back({}); // adds center vertex at 0, 0, 0
 
 	std::vector<vk_model::vertex> vertices{};
-	for (int i = 0; i < num_sides; i++)
+	for (int i = 0; i < static_cast<int>(num_sides); i++)
 	{
 		vertices.push_back(unique_vertices[i]);
 		vertices.push_back(unique_vertices[(i + 1) % num_sides]);
@@ -62,8 +62,8 @@ gravity_physics_system::gravity_physics_system(const float strength): strength_g
 void gravity_physics_system::update(std::vector<vk_game_object>& objs, const float dt,
                                     const unsigned substeps) const
 {
-	const float step_delta = dt / substeps;
-	for (int i = 0; i < substeps; i++)
+	const float step_delta = dt / static_cast<float>(substeps);
+	for (int i = 0; i < static_cast<int>(substeps); i++)
 	{
 		step_simulation(objs, step_delta);
 	}
@@ -181,7 +181,7 @@ void gravity_vec_field_app::run()
 	gravity_physics_system gravity_system{0.81f};
 	vec_field_system vec_field_system{};
 
-	vk_simple_render_system simple_render_system{device, renderer.get_swap_chain_render_pass()};
+	vk_simple_render_system simple_render_system{device, renderer.get_swap_chain_render_pass(), nullptr}; //TODO
 	vk_camera camera{};
 
 	while (!window.should_close())
@@ -203,7 +203,8 @@ void gravity_vec_field_app::run()
 				frame_index,
 				0,
 				command_buffer,
-				camera
+				camera,
+				nullptr,
 			};
 			renderer.begin_swap_chain_render_pass(command_buffer);
 			simple_render_system.render_game_objects(frame_info, physics_objects);

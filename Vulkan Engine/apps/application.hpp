@@ -4,6 +4,7 @@
 #include "../renderer/vk_device.hpp"
 #include "../renderer/vk_renderer.hpp"
 #include "../renderer/vk_window.hpp"
+#include "../simple_render_system/vk_descriptors.hpp"
 
 namespace vk_engine
 {
@@ -28,6 +29,8 @@ namespace vk_engine
 		vk_device device{window};
 		vk_renderer renderer{window, device};
 
+		//order matters
+		std::unique_ptr<vk_descriptor_pool> global_pool{};
 		std::vector<vk_game_object> game_objects;
 	};
 }

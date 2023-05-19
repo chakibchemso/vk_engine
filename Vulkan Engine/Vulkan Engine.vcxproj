@@ -24,6 +24,7 @@
       <ClCompile Include="renderer\vk_renderer.cpp"/>
       <ClCompile Include="renderer\vk_swapchain.cpp"/>
       <ClCompile Include="renderer\vk_window.cpp"/>
+      <ClCompile Include="simple_render_system\vk_descriptors.cpp"/>
       <ClCompile Include="simple_render_system\vk_pipeline.cpp"/>
       <ClCompile Include="simple_render_system\vk_simple_render_system.cpp"/>
   </ItemGroup>
@@ -42,6 +43,7 @@
         <ClInclude Include="renderer\vk_renderer.hpp"/>
         <ClInclude Include="renderer\vk_swapchain.hpp"/>
         <ClInclude Include="renderer\vk_window.hpp"/>
+        <ClInclude Include="simple_render_system\vk_descriptors.hpp"/>
         <ClInclude Include="simple_render_system\vk_pipeline.hpp"/>
         <ClInclude Include="simple_render_system\vk_simple_render_system.hpp"/>
     </ItemGroup>

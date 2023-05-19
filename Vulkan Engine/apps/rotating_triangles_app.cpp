@@ -19,7 +19,9 @@ namespace vk_engine
 
 	void rotating_triangles_app::run()
 	{
-		const vk_simple_render_system simple_render_system{device, renderer.get_swap_chain_render_pass()};
+		const vk_simple_render_system simple_render_system{
+			device, renderer.get_swap_chain_render_pass(), nullptr
+		}; //TODO
 		vk_camera camera{};
 
 		while (!window.should_close())

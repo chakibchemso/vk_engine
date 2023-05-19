@@ -11,5 +11,6 @@ namespace vk_engine
 		float frame_time;
 		VkCommandBuffer command_buffer;
 		vk_camera& camera;
+		VkDescriptorSet global_descriptor_set;
 	};
 }

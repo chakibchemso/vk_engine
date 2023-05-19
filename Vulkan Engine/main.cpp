@@ -1,6 +1,4 @@
 #include "apps/application.hpp"
-#include "apps/gravity_vec_field_app.hpp"
-#include "apps/rotating_triangles_app.hpp"
 
 #include <iostream>
 
