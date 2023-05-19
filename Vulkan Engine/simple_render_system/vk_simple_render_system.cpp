@@ -58,12 +58,12 @@ namespace vk_engine
 		pipeline_config.pipeline_layout = pipeline_layout;
 		pipeline = std::make_unique<vk_pipeline>(
 			device,
-			"shaders/simple_shader.vert.spv",
-			"shaders/simple_shader.frag.spv",
+			"assets/shaders/simple_shader.vert.spv",
+			"assets/shaders/simple_shader.frag.spv",
 			pipeline_config);
 	}
 
-	void vk_simple_render_system::render_game_objects(vk_frame_info& frame_info,
+	void vk_simple_render_system::render_game_objects(const vk_frame_info& frame_info,
 	                                                  const std::vector<vk_game_object>& game_objects) const
 	{
 		pipeline->bind(frame_info.command_buffer);

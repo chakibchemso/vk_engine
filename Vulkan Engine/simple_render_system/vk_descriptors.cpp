@@ -196,7 +196,7 @@ bool vk_descriptor_writer::build(VkDescriptorSet& set)
 	return true;
 }
 
-void vk_descriptor_writer::overwrite(VkDescriptorSet& set)
+void vk_descriptor_writer::overwrite(const VkDescriptorSet& set)
 {
 	for (auto& write : writes)
 		write.dstSet = set;

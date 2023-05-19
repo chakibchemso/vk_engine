@@ -15,10 +15,13 @@ using vk_engine::application;
 
 struct global_ubo
 {
-	glm::mat4 projection_view{1.f};
-	glm::vec3 light_direction{
+	alignas(16) glm::mat4 projection_view{1.f};
+	alignas(16) glm::vec4 ambient_light_color{1.f, 1.f, 1.f, .2f};
+	alignas(16) glm::vec3 light_direction{
 		normalize(glm::vec3{1.f, -3.f, -1.f})
 	};
+	alignas(16) glm::vec3 point_light_position{-1.f};
+	alignas(16) glm::vec4 point_light_color{1.f};
 };
 
 application::application()
@@ -63,6 +66,8 @@ void application::run()
 
 	global_ubo ubo{};
 	auto viewer_object = vk_game_object::create_game_object();
+	viewer_object.transform.translation = {0.f, -1.f, -2.5f};
+	viewer_object.transform.rotation.x = -.5f;
 
 	constexpr input_controller cam_controller{};
 
@@ -136,13 +141,33 @@ void application::run()
 
 void application::load_game_objects()
 {
-	const std::shared_ptr model = vk_model::create_model_from_file(
+	const std::shared_ptr flat_vase_model = vk_model::create_model_from_file(
+		device,
+		R"(assets\models\flat_vase.obj)");
+
+	const std::shared_ptr smooth_vase_model = vk_model::create_model_from_file(
 		device,
 		R"(assets\models\smooth_vase.obj)");
 
-	auto game_object = vk_game_object::create_game_object();
-	game_object.model = model;
-	game_object.transform.translation = {.0f, .0f, 2.5f};
-	game_object.transform.scale = glm::vec3{3.f};
-	game_objects.push_back(std::move(game_object));
+	const std::shared_ptr floor_model = vk_model::create_model_from_file(
+		device,
+		R"(assets\models\quad.obj)");
+
+	auto flat_vase_object = vk_game_object::create_game_object();
+	flat_vase_object.model = flat_vase_model;
+	flat_vase_object.transform.translation = {-.5f, .0f, .0f};
+	flat_vase_object.transform.scale = glm::vec3{3.f, 2.0f, 3.0f};
+	game_objects.push_back(std::move(flat_vase_object));
+
+	auto smooth_vase_object = vk_game_object::create_game_object();
+	smooth_vase_object.model = smooth_vase_model;
+	smooth_vase_object.transform.translation = {.5f, .0f, .0f};
+	smooth_vase_object.transform.scale = glm::vec3{3.0f, 1.0f, 3.0f};
+	game_objects.push_back(std::move(smooth_vase_object));
+
+	auto floor_object = vk_game_object::create_game_object();
+	floor_object.model = floor_model;
+	floor_object.transform.translation = {.0f, .0f, .0f};
+	floor_object.transform.scale = glm::vec3{3.0f, 1.0f, 3.0f};
+	game_objects.push_back(std::move(floor_object));
 }

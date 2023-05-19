@@ -51,10 +51,11 @@
         <Content Include="assets\models\colored_cube.obj"/>
         <Content Include="assets\models\cube.obj"/>
         <Content Include="assets\models\flat_vase.obj"/>
+        <Content Include="assets\models\quad.obj"/>
         <Content Include="assets\models\smooth_vase.obj"/>
+        <Content Include="assets\shaders\simple_shader.frag"/>
+        <Content Include="assets\shaders\simple_shader.vert"/>
         <Content Include="compile_shaders.bat"/>
-        <Content Include="shaders\simple_shader.frag"/>
-        <Content Include="shaders\simple_shader.vert"/>
     </ItemGroup>
     <PropertyGroup Label="Globals">
         <VCProjectVersion>15.0</VCProjectVersion>

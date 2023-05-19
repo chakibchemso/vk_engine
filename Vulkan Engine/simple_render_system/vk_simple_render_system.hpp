@@ -18,7 +18,8 @@ namespace vk_engine
 		vk_simple_render_system(const vk_simple_render_system&) = delete;
 		vk_simple_render_system& operator=(const vk_simple_render_system&) = delete;
 
-		void render_game_objects(vk_frame_info& frame_info, const std::vector<vk_game_object>& game_objects) const;
+		void render_game_objects(const vk_frame_info& frame_info,
+		                         const std::vector<vk_game_object>& game_objects) const;
 
 	private:
 		void create_pipeline_layout(VkDescriptorSetLayout global_set_layout);

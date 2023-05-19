@@ -100,7 +100,7 @@ namespace vk_engine
 		vk_descriptor_writer& write_image(uint32_t binding, const VkDescriptorImageInfo* image_info);
 
 		bool build(VkDescriptorSet& set);
-		void overwrite(VkDescriptorSet& set);
+		void overwrite(const VkDescriptorSet& set);
 
 	private:
 		vk_descriptor_set_layout& set_layout;
