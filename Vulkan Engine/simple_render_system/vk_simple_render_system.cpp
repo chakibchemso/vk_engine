@@ -60,13 +60,12 @@ namespace vk_engine
 			pipeline_config);
 	}
 
-	void vk_simple_render_system::render_game_objects(const VkCommandBuffer command_buffer,
-	                                                  const std::vector<vk_game_object>& game_objects,
-	                                                  const vk_camera& camera) const
+	void vk_simple_render_system::render_game_objects(vk_frame_info& frame_info,
+	                                                  const std::vector<vk_game_object>& game_objects) const
 	{
-		pipeline->bind(command_buffer);
+		pipeline->bind(frame_info.command_buffer);
 
-		const auto projection_view = camera.get_projection() * camera.get_view();
+		const auto projection_view = frame_info.camera.get_projection() * frame_info.camera.get_view();
 
 		for (auto& game_object : game_objects)
 		{
@@ -75,15 +74,15 @@ namespace vk_engine
 			push.normal_matrix = game_object.transform.normal_matrix();
 			
 			vkCmdPushConstants(
-				command_buffer,
+				frame_info.command_buffer,
 				pipeline_layout,
 				VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
 				0,
 				sizeof simple_push_const_data,
 				&push);
 
-			game_object.model->bind(command_buffer);
-			game_object.model->draw(command_buffer);
+			game_object.model->bind(frame_info.command_buffer);
+			game_object.model->draw(frame_info.command_buffer);
 		}
 	}
 }

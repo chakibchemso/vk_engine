@@ -439,11 +439,13 @@ namespace vk_engine
 			}
 		}
 
-		// for (const auto &availablePresentMode : availablePresentModes) {
-		//   if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
-		//     std::cout << "Present mode: Immediate" << std::endl;
-		//     return availablePresentMode;
-		//   }
+		// for (const auto& available_present_mode : available_present_modes)
+		// {
+		// 	if (available_present_mode == VK_PRESENT_MODE_IMMEDIATE_KHR)
+		// 	{
+		// 		present_mode = "Immediate";
+		// 		return available_present_mode;
+		// 	}
 		// }
 
 		present_mode = "V-Sync";

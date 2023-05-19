@@ -5,6 +5,7 @@
 
 #include <memory>
 #include <glm/glm.hpp>
+#include "../renderer/vk_buffer.hpp"
 #include "../renderer/vk_device.hpp"
 
 namespace vk_engine
@@ -50,13 +51,12 @@ namespace vk_engine
 
 		vk_device& device;
 
-		VkBuffer vertex_buffer{};
-		VkDeviceMemory vertex_buffer_memory{};
+		std::unique_ptr<vk_buffer> vertex_buffer{};
 		uint32_t vertex_count{};
 
-		VkBuffer index_buffer{};
-		VkDeviceMemory index_buffer_memory{};
+		std::unique_ptr<vk_buffer> index_buffer{};
 		uint32_t index_count{};
+		
 		bool has_index_buffer{false};
 	};
 }

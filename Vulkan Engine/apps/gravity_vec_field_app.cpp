@@ -198,9 +198,16 @@ void gravity_vec_field_app::run()
 			vec_field_system.update(gravity_system, physics_objects, vector_field);
 
 			// render system
+			int frame_index = renderer.get_frame_index();
+			vk_frame_info frame_info{
+				frame_index,
+				0,
+				command_buffer,
+				camera
+			};
 			renderer.begin_swap_chain_render_pass(command_buffer);
-			simple_render_system.render_game_objects(command_buffer, physics_objects, camera);
-			simple_render_system.render_game_objects(command_buffer, vector_field, camera);
+			simple_render_system.render_game_objects(frame_info, physics_objects);
+			simple_render_system.render_game_objects(frame_info, vector_field);
 			renderer.end_swap_chain_render_pass(command_buffer);
 			renderer.end_frame();
 		}

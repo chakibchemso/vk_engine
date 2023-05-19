@@ -4,6 +4,7 @@
 #include "../engine/vk_camera.hpp"
 #include "../engine/vk_game_object.hpp"
 #include "../renderer/vk_device.hpp"
+#include "../renderer/vk_frame_info.hpp"
 
 #include <memory>
 
@@ -18,9 +19,7 @@ namespace vk_engine
 		vk_simple_render_system(const vk_simple_render_system&) = delete;
 		vk_simple_render_system& operator=(const vk_simple_render_system&) = delete;
 
-		void render_game_objects(VkCommandBuffer command_buffer,
-		                         const std::vector<vk_game_object>& game_objects,
-		                         const vk_camera& camera) const;
+		void render_game_objects(vk_frame_info& frame_info, const std::vector<vk_game_object>& game_objects) const;
 
 	private:
 		void create_pipeline_layout();

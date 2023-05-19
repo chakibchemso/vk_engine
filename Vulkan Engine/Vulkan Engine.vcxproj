@@ -11,56 +11,59 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="apps\application.cpp"/>
-    <ClCompile Include="apps\gravity_vec_field_app.cpp"/>
-    <ClCompile Include="apps\input_controller.cpp"/>
-    <ClCompile Include="apps\rotating_triangles_app.cpp"/>
-    <ClCompile Include="engine\vk_camera.cpp"/>
-    <ClCompile Include="engine\vk_game_object.cpp"/>
-    <ClCompile Include="engine\vk_model.cpp"/>
-    <ClCompile Include="main.cpp"/>
-    <ClCompile Include="renderer\vk_device.cpp"/>
-    <ClCompile Include="renderer\vk_renderer.cpp"/>
-    <ClCompile Include="renderer\vk_swapchain.cpp"/>
-    <ClCompile Include="renderer\vk_window.cpp"/>
-    <ClCompile Include="simple_render_system\vk_pipeline.cpp"/>
-    <ClCompile Include="simple_render_system\vk_simple_render_system.cpp"/>
+      <ClCompile Include="apps\application.cpp"/>
+      <ClCompile Include="apps\gravity_vec_field_app.cpp"/>
+      <ClCompile Include="apps\input_controller.cpp"/>
+      <ClCompile Include="apps\rotating_triangles_app.cpp"/>
+      <ClCompile Include="engine\vk_camera.cpp"/>
+      <ClCompile Include="engine\vk_game_object.cpp"/>
+      <ClCompile Include="engine\vk_model.cpp"/>
+      <ClCompile Include="main.cpp"/>
+      <ClCompile Include="renderer\vk_buffer.cpp"/>
+      <ClCompile Include="renderer\vk_device.cpp"/>
+      <ClCompile Include="renderer\vk_renderer.cpp"/>
+      <ClCompile Include="renderer\vk_swapchain.cpp"/>
+      <ClCompile Include="renderer\vk_window.cpp"/>
+      <ClCompile Include="simple_render_system\vk_pipeline.cpp"/>
+      <ClCompile Include="simple_render_system\vk_simple_render_system.cpp"/>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="apps\application.hpp"/>
-    <ClInclude Include="apps\gravity_vec_field_app.hpp"/>
-    <ClInclude Include="apps\input_controller.hpp"/>
-    <ClInclude Include="apps\rotating_triangles_app.hpp"/>
-    <ClInclude Include="engine\vk_camera.hpp"/>
-    <ClInclude Include="engine\vk_game_object.hpp"/>
-    <ClInclude Include="engine\vk_model.hpp"/>
-    <ClInclude Include="engine\vk_utils.hpp"/>
-    <ClInclude Include="renderer\vk_device.hpp"/>
-    <ClInclude Include="renderer\vk_renderer.hpp"/>
-    <ClInclude Include="renderer\vk_swapchain.hpp"/>
-    <ClInclude Include="renderer\vk_window.hpp"/>
-    <ClInclude Include="simple_render_system\vk_pipeline.hpp"/>
-    <ClInclude Include="simple_render_system\vk_simple_render_system.hpp"/>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="assets\models\colored_cube.obj"/>
-    <Content Include="assets\models\cube.obj"/>
-    <Content Include="assets\models\flat_vase.obj"/>
-    <Content Include="assets\models\smooth_vase.obj"/>
-    <Content Include="compile_shaders.bat"/>
-    <Content Include="shaders\simple_shader.frag"/>
-    <Content Include="shaders\simple_shader.vert"/>
-  </ItemGroup>
-  <PropertyGroup Label="Globals">
-    <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{646E1EDB-0B99-4C9F-8D3D-725B3C5282A7}</ProjectGuid>
-    <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Vulkan_Engine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
-  <PropertyGroup>
-    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <ItemGroup>
+        <ClInclude Include="apps\application.hpp"/>
+        <ClInclude Include="apps\gravity_vec_field_app.hpp"/>
+        <ClInclude Include="apps\input_controller.hpp"/>
+        <ClInclude Include="apps\rotating_triangles_app.hpp"/>
+        <ClInclude Include="engine\vk_camera.hpp"/>
+        <ClInclude Include="engine\vk_game_object.hpp"/>
+        <ClInclude Include="engine\vk_model.hpp"/>
+        <ClInclude Include="engine\vk_utils.hpp"/>
+        <ClInclude Include="renderer\vk_buffer.hpp"/>
+        <ClInclude Include="renderer\vk_device.hpp"/>
+        <ClInclude Include="renderer\vk_frame_info.hpp"/>
+        <ClInclude Include="renderer\vk_renderer.hpp"/>
+        <ClInclude Include="renderer\vk_swapchain.hpp"/>
+        <ClInclude Include="renderer\vk_window.hpp"/>
+        <ClInclude Include="simple_render_system\vk_pipeline.hpp"/>
+        <ClInclude Include="simple_render_system\vk_simple_render_system.hpp"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="assets\models\colored_cube.obj"/>
+        <Content Include="assets\models\cube.obj"/>
+        <Content Include="assets\models\flat_vase.obj"/>
+        <Content Include="assets\models\smooth_vase.obj"/>
+        <Content Include="compile_shaders.bat"/>
+        <Content Include="shaders\simple_shader.frag"/>
+        <Content Include="shaders\simple_shader.vert"/>
+    </ItemGroup>
+    <PropertyGroup Label="Globals">
+        <VCProjectVersion>15.0</VCProjectVersion>
+        <ProjectGuid>{646E1EDB-0B99-4C9F-8D3D-725B3C5282A7}</ProjectGuid>
+        <Keyword>Win32Proj</Keyword>
+        <RootNamespace>Vulkan_Engine</RootNamespace>
+        <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    </PropertyGroup>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
+    <PropertyGroup>
+        <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -77,18 +80,18 @@
     <EnableASAN>true</EnableASAN>
     <EnableFuzzer>true</EnableFuzzer>
   </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
   </ImportGroup>
-  <PropertyGroup Label="UserMacros"/>
+    <PropertyGroup Label="UserMacros"/>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <SourcePath>$(VC_SourcePath);</SourcePath>
@@ -141,7 +144,7 @@
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);vulkan-1.lib;glfw3.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>

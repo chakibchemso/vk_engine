@@ -31,6 +31,13 @@ namespace vk_engine
 
 			if (const auto command_buffer = renderer.begin_frame())
 			{
+				const int frame_index = renderer.get_frame_index();
+				vk_frame_info frame_info{
+					frame_index,
+					0,
+					command_buffer,
+					camera
+				};
 				renderer.begin_swap_chain_render_pass(command_buffer);
 				// update rotations
 				int i = 0;
@@ -40,7 +47,7 @@ namespace vk_engine
 					game_object.transform.rotation.z =
 						glm::mod<float>(game_object.transform.rotation.z + 0.1f * i, 360.f);
 				}
-				simple_render_system.render_game_objects(command_buffer, game_objects, camera);
+				simple_render_system.render_game_objects(frame_info, game_objects);
 				renderer.end_swap_chain_render_pass(command_buffer);
 				renderer.end_frame();
 			}
