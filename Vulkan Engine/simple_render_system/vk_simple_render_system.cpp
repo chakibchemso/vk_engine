@@ -63,8 +63,7 @@ namespace vk_engine
 			pipeline_config);
 	}
 
-	void vk_simple_render_system::render_game_objects(const vk_frame_info& frame_info,
-	                                                  const std::vector<vk_game_object>& game_objects) const
+	void vk_simple_render_system::render_game_objects(const vk_frame_info& frame_info) const
 	{
 		pipeline->bind(frame_info.command_buffer);
 
@@ -78,8 +77,11 @@ namespace vk_engine
 			0,
 			nullptr);
 
-		for (auto& game_object : game_objects)
+		for (auto& [id, game_object] : frame_info.game_objects)
 		{
+			if (game_object.model == nullptr)
+				continue;
+			
 			simple_push_const_data push{};
 			push.model_matrix = game_object.transform.mat4();
 			push.normal_matrix = game_object.transform.normal_matrix();

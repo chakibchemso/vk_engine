@@ -38,18 +38,20 @@ namespace vk_engine
 					frame_index,
 					0,
 					command_buffer,
-					camera
+					camera,
+					nullptr,
+					game_objects
 				};
 				renderer.begin_swap_chain_render_pass(command_buffer);
 				// update rotations
 				int i = 0;
-				for (auto& game_object : game_objects)
+				for (auto& [id, game_object] : game_objects)
 				{
 					i += 1;
 					game_object.transform.rotation.z =
 						glm::mod<float>(game_object.transform.rotation.z + 0.1f * i, 360.f);
 				}
-				simple_render_system.render_game_objects(frame_info, game_objects);
+				simple_render_system.render_game_objects(frame_info);
 				renderer.end_swap_chain_render_pass(command_buffer);
 				renderer.end_frame();
 			}
@@ -110,7 +112,7 @@ namespace vk_engine
 			triangle.transform.rotation = glm::vec3(0.f, 0.f, glm::radians(45.f)) * glm::vec3(static_cast<float>(i));
 			triangle.color = colors[i % colors.size()]; //TODO shit?
 
-			game_objects.push_back(std::move(triangle));
+			game_objects.emplace(triangle.get_id(), std::move(triangle));
 		}
 	}
 }

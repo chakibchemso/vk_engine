@@ -34,12 +34,12 @@
         <ClInclude Include="apps\input_controller.hpp"/>
         <ClInclude Include="apps\rotating_triangles_app.hpp"/>
         <ClInclude Include="engine\vk_camera.hpp"/>
+        <ClInclude Include="engine\vk_frame_info.hpp"/>
         <ClInclude Include="engine\vk_game_object.hpp"/>
         <ClInclude Include="engine\vk_model.hpp"/>
         <ClInclude Include="engine\vk_utils.hpp"/>
         <ClInclude Include="renderer\vk_buffer.hpp"/>
         <ClInclude Include="renderer\vk_device.hpp"/>
-        <ClInclude Include="renderer\vk_frame_info.hpp"/>
         <ClInclude Include="renderer\vk_renderer.hpp"/>
         <ClInclude Include="renderer\vk_swapchain.hpp"/>
         <ClInclude Include="renderer\vk_window.hpp"/>

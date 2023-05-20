@@ -31,6 +31,6 @@ namespace vk_engine
 
 		//order matters
 		std::unique_ptr<vk_descriptor_pool> global_pool{};
-		std::vector<vk_game_object> game_objects;
+		vk_game_object::map game_objects;
 	};
 }

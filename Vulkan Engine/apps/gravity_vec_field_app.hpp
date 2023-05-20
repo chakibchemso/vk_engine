@@ -56,6 +56,6 @@ namespace vk_engine
 		vk_device device{window};
 		vk_renderer renderer{window, device};
 
-		std::vector<vk_game_object> game_objects;
+		vk_game_object::map game_objects;
 	};
 }

@@ -1,5 +1,7 @@
 #pragma once
+
 #include <memory>
+#include <unordered_map>
 #include <glm/ext.hpp>
 
 #include "vk_model.hpp"
@@ -31,8 +33,10 @@ namespace vk_engine
 		vk_game_object& operator=(vk_game_object&&) = default;
 
 		using id_t = unsigned int;
+		using map = std::pmr::unordered_map<id_t, vk_game_object>;
 
 		static vk_game_object create_game_object();
+		id_t get_id() const { return id; }
 
 		std::shared_ptr<vk_model> model{};
 		glm::vec3 color{}; //TODO ?

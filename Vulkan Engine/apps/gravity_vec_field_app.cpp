@@ -205,10 +205,11 @@ void gravity_vec_field_app::run()
 				command_buffer,
 				camera,
 				nullptr,
+				game_objects
 			};
 			renderer.begin_swap_chain_render_pass(command_buffer);
-			simple_render_system.render_game_objects(frame_info, physics_objects);
-			simple_render_system.render_game_objects(frame_info, vector_field);
+			simple_render_system.render_game_objects(frame_info);
+			simple_render_system.render_game_objects(frame_info);
 			renderer.end_swap_chain_render_pass(command_buffer);
 			renderer.end_frame();
 		}
@@ -255,5 +256,5 @@ void gravity_vec_field_app::load_game_objects()
 	triangle.transform.scale = {2.f, .5f, 1.f};
 	triangle.transform.rotation.z = .25f * glm::two_pi<float>();
 
-	game_objects.push_back(std::move(triangle));
+	game_objects.emplace(triangle.get_id(), std::move(triangle));
 }

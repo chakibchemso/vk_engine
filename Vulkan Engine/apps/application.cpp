@@ -52,7 +52,8 @@ void application::run()
 	}
 
 	auto global_set_layout = vk_descriptor_set_layout::builder(device)
-	                         .add_binding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
+	                         .add_binding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+	                                      VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT)
 	                         .build();
 
 	std::vector<VkDescriptorSet> global_descriptor_sets(vk_swapchain::MAX_FRAMES_IN_FLIGHT);
@@ -105,7 +106,8 @@ void application::run()
 				frame_time,
 				command_buffer,
 				camera,
-				global_descriptor_sets[frame_index]
+				global_descriptor_sets[frame_index],
+				game_objects,
 			};
 			// std::cout
 			// 	<< "[Main]" << std::endl
@@ -129,7 +131,7 @@ void application::run()
 				game_object.transform.rotation.z = glm::mod(game_object.transform.rotation.z + 0.1f, 360.f);
 			}*/
 
-			simple_render_system.render_game_objects(frame_info, game_objects);
+			simple_render_system.render_game_objects(frame_info);
 
 			renderer.end_swap_chain_render_pass(command_buffer);
 			renderer.end_frame();
@@ -157,17 +159,17 @@ void application::load_game_objects()
 	flat_vase_object.model = flat_vase_model;
 	flat_vase_object.transform.translation = {-.5f, .0f, .0f};
 	flat_vase_object.transform.scale = glm::vec3{3.f, 2.0f, 3.0f};
-	game_objects.push_back(std::move(flat_vase_object));
+	game_objects.emplace(flat_vase_object.get_id(), std::move(flat_vase_object));
 
 	auto smooth_vase_object = vk_game_object::create_game_object();
 	smooth_vase_object.model = smooth_vase_model;
 	smooth_vase_object.transform.translation = {.5f, .0f, .0f};
 	smooth_vase_object.transform.scale = glm::vec3{3.0f, 1.0f, 3.0f};
-	game_objects.push_back(std::move(smooth_vase_object));
+	game_objects.emplace(smooth_vase_object.get_id(), std::move(smooth_vase_object));
 
 	auto floor_object = vk_game_object::create_game_object();
 	floor_object.model = floor_model;
 	floor_object.transform.translation = {.0f, .0f, .0f};
 	floor_object.transform.scale = glm::vec3{3.0f, 1.0f, 3.0f};
-	game_objects.push_back(std::move(floor_object));
+	game_objects.emplace(floor_object.get_id(), std::move(floor_object));
 }
