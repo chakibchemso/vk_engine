@@ -19,14 +19,88 @@
       <ClCompile Include="engine\vk_game_object.cpp"/>
       <ClCompile Include="engine\vk_model.cpp"/>
       <ClCompile Include="main.cpp"/>
+      <ClCompile Include="renderer\simple_render_system\vk_descriptors.cpp"/>
+      <ClCompile Include="renderer\simple_render_system\vk_pipeline.cpp"/>
+      <ClCompile Include="renderer\simple_render_system\vk_point_light_system.cpp">
+          <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+          <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+          <Optimization>Disabled</Optimization>
+          <SupportJustMyCode>true</SupportJustMyCode>
+          <AssemblerOutput>NoListing</AssemblerOutput>
+          <AssemblerListingLocation>x64\Debug\</AssemblerListingLocation>
+          <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+          <BrowseInformation>false</BrowseInformation>
+          <BrowseInformationFile>x64\Debug\</BrowseInformationFile>
+          <CompileAs>Default</CompileAs>
+          <ConformanceMode>true</ConformanceMode>
+          <DiagnosticsFormat>Column</DiagnosticsFormat>
+          <DisableLanguageExtensions>false</DisableLanguageExtensions>
+          <ErrorReporting>Prompt</ErrorReporting>
+          <ExpandAttributedSource>false</ExpandAttributedSource>
+          <ExceptionHandling>Sync</ExceptionHandling>
+          <EnableASAN>false</EnableASAN>
+          <EnableFuzzer>false</EnableFuzzer>
+          <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+          <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+          <FloatingPointModel>Precise</FloatingPointModel>
+          <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+          <GenerateModuleDependencies>false</GenerateModuleDependencies>
+          <GenerateSourceDependencies>false</GenerateSourceDependencies>
+          <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+          <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+          <IntrinsicFunctions>false</IntrinsicFunctions>
+          <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+          <LanguageStandard>stdcpp17</LanguageStandard>
+          <LanguageStandard_C>stdc17</LanguageStandard_C>
+          <MinimalRebuild>false</MinimalRebuild>
+          <ModuleDependenciesFile>x64\Debug\</ModuleDependenciesFile>
+          <ModuleOutputFile>x64\Debug\</ModuleOutputFile>
+          <OmitDefaultLibName>false</OmitDefaultLibName>
+          <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+          <WholeProgramOptimization>false</WholeProgramOptimization>
+          <ObjectFileName>x64\Debug\</ObjectFileName>
+          <CallingConvention>Cdecl</CallingConvention>
+          <ProgramDataBaseFileName>x64\Debug\vc143.pdb</ProgramDataBaseFileName>
+          <PrecompiledHeader>NotUsing</PrecompiledHeader>
+          <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+          <PrecompiledHeaderOutputFile>x64\Debug\Vulkan Engine.pch</PrecompiledHeaderOutputFile>
+          <PreprocessToFile>false</PreprocessToFile>
+          <PreprocessKeepComments>false</PreprocessKeepComments>
+          <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+          <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+          <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+          <ShowIncludes>false</ShowIncludes>
+          <SourceDependenciesFile>x64\Debug\</SourceDependenciesFile>
+          <SuppressStartupBanner>true</SuppressStartupBanner>
+          <BufferSecurityCheck>true</BufferSecurityCheck>
+          <SmallerTypeCheck>false</SmallerTypeCheck>
+          <SpectreMitigation>false</SpectreMitigation>
+          <StructMemberAlignment>Default</StructMemberAlignment>
+          <TrackerLogDirectory>x64\Debug\Vulkan Engine.tlog\</TrackerLogDirectory>
+          <TranslateIncludes>false</TranslateIncludes>
+          <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+          <TreatWarningAsError>false</TreatWarningAsError>
+          <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+          <UseFullPaths>true</UseFullPaths>
+          <WarningLevel>Level3</WarningLevel>
+          <XMLDocumentationFileName>x64\Debug\</XMLDocumentationFileName>
+          <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+          <IntelJCCErratum>false</IntelJCCErratum>
+          <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+          <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+          <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+          <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+          <PreprocessorDefinitions>_DEBUG;_CONSOLE;_UNICODE;UNICODE;</PreprocessorDefinitions>
+          <AdditionalIncludeDirectories>E:\DEV\Libs\glfw\win\3.3.8\include;E:\DEV\Libs\glm\win\0.9.9.8;C:\SDK\VulkanSDK\1.3.243.0\Include;E:\DEV\Libs\tiny_obj_loader\win\latest</AdditionalIncludeDirectories>
+          <MultiProcessorCompilation>true</MultiProcessorCompilation>
+          <LinkCompiled>true</LinkCompiled>
+      </ClCompile>
+      <ClCompile Include="renderer\simple_render_system\vk_simple_render_system.cpp"/>
       <ClCompile Include="renderer\vk_buffer.cpp"/>
       <ClCompile Include="renderer\vk_device.cpp"/>
       <ClCompile Include="renderer\vk_renderer.cpp"/>
       <ClCompile Include="renderer\vk_swapchain.cpp"/>
       <ClCompile Include="renderer\vk_window.cpp"/>
-      <ClCompile Include="simple_render_system\vk_descriptors.cpp"/>
-      <ClCompile Include="simple_render_system\vk_pipeline.cpp"/>
-      <ClCompile Include="simple_render_system\vk_simple_render_system.cpp"/>
   </ItemGroup>
     <ItemGroup>
         <ClInclude Include="apps\application.hpp"/>
@@ -38,21 +112,26 @@
         <ClInclude Include="engine\vk_game_object.hpp"/>
         <ClInclude Include="engine\vk_model.hpp"/>
         <ClInclude Include="engine\vk_utils.hpp"/>
+        <ClInclude Include="renderer\simple_render_system\vk_descriptors.hpp"/>
+        <ClInclude Include="renderer\simple_render_system\vk_pipeline.hpp"/>
+        <ClInclude Include="renderer\simple_render_system\vk_point_light_system.hpp"/>
+        <ClInclude Include="renderer\simple_render_system\vk_simple_render_system.hpp"/>
         <ClInclude Include="renderer\vk_buffer.hpp"/>
         <ClInclude Include="renderer\vk_device.hpp"/>
         <ClInclude Include="renderer\vk_renderer.hpp"/>
         <ClInclude Include="renderer\vk_swapchain.hpp"/>
         <ClInclude Include="renderer\vk_window.hpp"/>
-        <ClInclude Include="simple_render_system\vk_descriptors.hpp"/>
-        <ClInclude Include="simple_render_system\vk_pipeline.hpp"/>
-        <ClInclude Include="simple_render_system\vk_simple_render_system.hpp"/>
     </ItemGroup>
     <ItemGroup>
         <Content Include="assets\models\colored_cube.obj"/>
         <Content Include="assets\models\cube.obj"/>
         <Content Include="assets\models\flat_vase.obj"/>
         <Content Include="assets\models\quad.obj"/>
+        <Content Include="assets\models\raiju.mtl"/>
+        <Content Include="assets\models\raiju.obj"/>
         <Content Include="assets\models\smooth_vase.obj"/>
+        <Content Include="assets\shaders\point_light.frag"/>
+        <Content Include="assets\shaders\point_light.vert"/>
         <Content Include="assets\shaders\simple_shader.frag"/>
         <Content Include="assets\shaders\simple_shader.vert"/>
         <Content Include="compile_shaders.bat"/>

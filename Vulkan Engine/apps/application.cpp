@@ -9,19 +9,21 @@
 #include "../engine/vk_model.hpp"
 #include "../renderer/vk_buffer.hpp"
 #include "../renderer/vk_device.hpp"
-#include "../simple_render_system/vk_simple_render_system.hpp"
+#include "../renderer/simple_render_system/vk_point_light_system.hpp"
+#include "../renderer/simple_render_system/vk_simple_render_system.hpp"
 
 using vk_engine::application;
 
 struct global_ubo
 {
-	alignas(16) glm::mat4 projection_view{1.f};
+	alignas(16) glm::mat4 projection{1.f};
+	alignas(16) glm::mat4 view{1.f};
 	alignas(16) glm::vec4 ambient_light_color{1.f, 1.f, 1.f, .2f};
 	alignas(16) glm::vec3 light_direction{
 		normalize(glm::vec3{1.f, -3.f, -1.f})
 	};
 	alignas(16) glm::vec3 point_light_position{-1.f};
-	alignas(16) glm::vec4 point_light_color{1.f};
+	alignas(16) glm::vec4 point_light_color{1.f, 1.f, 0.f, 1.f};
 };
 
 application::application()
@@ -80,6 +82,10 @@ void application::run()
 		device, renderer.get_swap_chain_render_pass(), global_set_layout->get_descriptor_set_layout()
 	};
 
+	const vk_point_light_system point_light_system{
+		device, renderer.get_swap_chain_render_pass(), global_set_layout->get_descriptor_set_layout()
+	};
+
 	auto current_time = std::chrono::high_resolution_clock::now();
 
 	while (!window.should_close())
@@ -116,7 +122,8 @@ void application::run()
 			// 	<< "	frame rate: " << 1 / frame_time << std::endl;
 
 			//update
-			ubo.projection_view = camera.get_projection() * camera.get_view();
+			ubo.projection = camera.get_projection();
+			ubo.view = camera.get_view();
 			ubo_buffers[frame_index]->write_to_buffer(&ubo);
 			ubo_buffers[frame_index]->flush();
 
@@ -132,6 +139,7 @@ void application::run()
 			}*/
 
 			simple_render_system.render_game_objects(frame_info);
+			point_light_system.render_light(frame_info);
 
 			renderer.end_swap_chain_render_pass(command_buffer);
 			renderer.end_frame();
@@ -155,6 +163,10 @@ void application::load_game_objects()
 		device,
 		R"(assets\models\quad.obj)");
 
+	const std::shared_ptr raiju_model = vk_model::create_model_from_file(
+		device,
+		R"(assets\models\raiju.obj)");
+
 	auto flat_vase_object = vk_game_object::create_game_object();
 	flat_vase_object.model = flat_vase_model;
 	flat_vase_object.transform.translation = {-.5f, .0f, .0f};
@@ -172,4 +184,10 @@ void application::load_game_objects()
 	floor_object.transform.translation = {.0f, .0f, .0f};
 	floor_object.transform.scale = glm::vec3{3.0f, 1.0f, 3.0f};
 	game_objects.emplace(floor_object.get_id(), std::move(floor_object));
+
+	auto raiju_object = vk_game_object::create_game_object();
+	raiju_object.model = raiju_model;
+	raiju_object.transform.translation = {.0f, -1.0f, .0f};
+	raiju_object.transform.scale = glm::vec3{.1f, -.1f, .1f};
+	game_objects.emplace(raiju_object.get_id(), std::move(raiju_object));
 }

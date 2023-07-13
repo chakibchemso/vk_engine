@@ -5,7 +5,7 @@
 
 #include "../engine/vk_model.hpp"
 #include "../renderer/vk_device.hpp"
-#include "../simple_render_system/vk_simple_render_system.hpp"
+#include "../renderer/simple_render_system/vk_simple_render_system.hpp"
 
 namespace vk_engine
 {

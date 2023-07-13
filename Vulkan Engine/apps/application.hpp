@@ -4,7 +4,7 @@
 #include "../renderer/vk_device.hpp"
 #include "../renderer/vk_renderer.hpp"
 #include "../renderer/vk_window.hpp"
-#include "../simple_render_system/vk_descriptors.hpp"
+#include "../renderer/simple_render_system/vk_descriptors.hpp"
 
 namespace vk_engine
 {

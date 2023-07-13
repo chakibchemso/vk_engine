@@ -1,0 +1,300 @@
+# Blender MTL File: 'raiju.blend'
+# Material Count: 24
+
+newmtl vehicle_badges
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\raiju_decals.dds
+map_d textures\\raiju_decals.dds
+
+newmtl vehicle_dash_emissive
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd script_rt_dials_lazer.dds
+map_Ks textures\\black.dds
+map_d script_rt_dials_lazer.dds
+
+newmtl vehicle_dash_emissive_opaque
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\raiju_detail.dds
+map_Ks textures\\black.dds
+map_d textures\\raiju_detail.dds
+
+newmtl vehicle_detail2
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\raiju_seat_d.dds
+map_Ks textures\\raiju_seat_s.dds
+map_d textures\\raiju_seat_d.dds
+
+newmtl vehicle_detail2.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\raiju_dash.dds
+map_Ks textures\\rajiu_dash_s.dds
+map_d textures\\raiju_dash.dds
+
+newmtl vehicle_interior2
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd flyer_interior_hd.dds
+map_Ks textures\\vehicle_generic_smallspecmap.dds
+map_d flyer_interior_hd.dds
+
+newmtl vehicle_interior2.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\raiju_detail.dds
+map_Ks textures\\vehicle_generic_smallspecmap.dds
+map_d textures\\raiju_detail.dds
+
+newmtl vehicle_lightsemissive
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\raiju_lights.dds
+map_Ks textures\\vehicle_generic_smallspecmap.dds
+map_d textures\\raiju_lights.dds
+
+newmtl vehicle_mesh
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\vehicle_generic_detail2.dds
+map_Ks textures\\vehicle_generic_detail_spec.dds
+map_d textures\\vehicle_generic_detail2.dds
+
+newmtl vehicle_mesh.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\vehicle_generic_mesh3.dds
+map_Ks textures\\vehicle_generic_mesh3.dds
+map_d textures\\vehicle_generic_mesh3.dds
+
+newmtl vehicle_mesh.002
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\coureur_metal.dds
+map_Ks textures\\coureur_metal_s.dds
+map_d textures\\coureur_metal.dds
+
+newmtl vehicle_mesh.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\longfin_plastic.dds
+map_Ks textures\\longfin_plastic_s.dds
+map_d textures\\longfin_plastic.dds
+
+newmtl vehicle_mesh.004
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\longfin_plastic.dds
+map_Ks textures\\raiju_plastic_s.dds
+map_d textures\\longfin_plastic.dds
+
+newmtl vehicle_mesh.005
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\raiju_nozzle_d.dds
+map_Ks textures\\raiju_nozzle_s.dds
+map_d textures\\raiju_nozzle_d.dds
+
+newmtl vehicle_mesh.006
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\hunt_missile2.dds
+map_Ks textures\\hunt_missile.dds
+map_d textures\\hunt_missile2.dds
+
+newmtl vehicle_mesh.007
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\raiju_gun.dds
+map_Ks textures\\raiju_gun.dds
+map_d textures\\raiju_gun.dds
+
+newmtl vehicle_mesh.008
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\raiju_bomb.dds
+map_Ks textures\\raiju_bomb.dds
+map_d textures\\raiju_bomb.dds
+
+newmtl vehicle_paint8
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl vehicle_paint8.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl vehicle_shuts
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\vehicle_generic_doorshut.dds
+map_Ks textures\\vehicle_generic_smallspecmap.dds
+map_d textures\\vehicle_generic_doorshut.dds
+
+newmtl vehicle_tire
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\vehicle_generic_tyrewallblack.dds
+map_Ks textures\\vehicle_generic_tyrewall_spec.dds
+map_d textures\\vehicle_generic_tyrewallblack.dds
+
+newmtl vehicle_track2
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures\\nebula_turbo.dds
+map_d textures\\nebula_turbo.dds
+
+newmtl vehicle_vehglass
+Ns 359.999993
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl vehicle_vehglass_inner
+Ns 359.999993
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2

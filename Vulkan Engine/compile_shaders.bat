@@ -1,5 +1,17 @@
 @echo off
-echo "Compiling shaders..."
-glslc assets/shaders/simple_shader.vert -o assets/shaders/simple_shader.vert.spv
-glslc assets/shaders/simple_shader.frag -o assets/shaders/simple_shader.frag.spv
+
+echo "[Compiling] vertex shaders..."
+
+for %%f in (assets/shaders/*.vert) do (
+    echo "  %%f"
+    glslc assets/shaders/%%f -o assets/shaders/%%f.spv
+)
+
+echo "[Compiling] fragment shaders..."
+
+for %%f in (assets/shaders/*.frag) do (
+    echo "  %%f"
+    glslc assets/shaders/%%f -o assets/shaders/%%f.spv
+)
+
 echo "Done."
