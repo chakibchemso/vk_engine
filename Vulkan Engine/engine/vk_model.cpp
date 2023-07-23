@@ -7,7 +7,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <glm/gtx/hash.hpp>
-#include <TinyObjLoader/tiny_obj_loader.hpp>
+#include <tiny_obj_loader.hpp>
 
 using vk_engine::vk_model;
 

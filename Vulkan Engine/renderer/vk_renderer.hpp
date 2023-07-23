@@ -40,8 +40,8 @@ namespace vk_engine
 
 		std::vector<VkCommandBuffer> command_buffers;
 
-		uint32_t current_image_index;
-		int current_frame_index{};
+		uint32_t current_image_index{};
+        int current_frame_index{};
 		bool is_frame_started{false};
 	};
 }

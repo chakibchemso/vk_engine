@@ -1,5 +1,4 @@
 #include "vk_renderer.hpp"
-#define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
 #include <array>
@@ -7,7 +6,6 @@
 #include <future>
 #include <iostream>
 #include <stdexcept>
-#include <glm/glm.hpp>
 
 #include "vk_device.hpp"
 
@@ -159,10 +157,10 @@ namespace vk_engine
 	void vk_renderer::free_command_buffers()
 	{
 		vkFreeCommandBuffers(
-			device.get_device(),
-			device.get_command_pool(),
-			static_cast<float>(command_buffers.size()),
-			command_buffers.data());
+                device.get_device(),
+                device.get_command_pool(),
+                static_cast<uint32_t>(command_buffers.size()),
+                command_buffers.data());
 		command_buffers.clear();
 	}
 

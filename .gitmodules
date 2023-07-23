@@ -1,0 +1,6 @@
+[submodule "Vulkan Engine/extern/glfw"]
+	path = Vulkan Engine/extern/glfw
+	url = https://github.com/glfw/glfw
+[submodule "Vulkan Engine/extern/glm"]
+	path = Vulkan Engine/extern/glm
+	url = https://github.com/g-truc/glm
